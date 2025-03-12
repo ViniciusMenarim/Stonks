@@ -54,7 +54,8 @@
             font-size: 1.8rem;
             font-weight: 600;
             color: #8fd489;
-            margin-right: 86px;
+            margin-right: 80px;
+            
         }
 
         .settings-btn {
@@ -74,35 +75,71 @@
             transform: scale(1.1);
         }
 
-        .categories {
+        .container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 50px; /* Abaixando um pouco tudo */
         }
 
-        .category {
-            width: 100px;
-            height: 100px;
+        .side-buttons {
+         position: absolute;
+         left: 20px; /* Move os botões mais para a esquerda */
+         top: 150px; /* Ajusta a posição vertical */
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+}
+
+        .btn {
+            background: gray;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+            width: 180px;
+            text-align: center;
+        }
+
+        .btn-green {
+            background: #4CAF50;
+        }
+
+        .btn-red {
+            background: #E53935;
+        }
+
+        .btn-blue {
+            background: #1E88E5;
+        }
+
+        .btn-yellow {
+            background: #FFC107;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .center-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 1.1em;
-            font-weight: bold;
-            background: rgba(255, 255, 255, 0.15);
+            flex-grow: 1;
         }
 
         .chart-container {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 350px; /* Tamanho do gráfico */
+         height: 350px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
         }
 
         .chart-center {
@@ -112,14 +149,31 @@
             color: #8fd489;
         }
 
-        .btn {
-            background: gray;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1.2em;
-            border: none;
-            cursor: pointer;
-        }
+        .categories {
+    position: absolute;
+    right: 20px; /* Mantém os ícones fixos no lado direito */
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.category {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.1em;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15);
+    text-align: center;
+}
     </style>
 </head>
 <body>
@@ -133,21 +187,33 @@
         </button>
     </div>
     
-    <div class="categories">
-        <div class="category" style="background: #4CAF50;">Casa<br>15%</div>
-        <div class="category" style="background: #E53935;">Outros<br>24%</div>
-        <div class="category" style="background: #1E88E5;">Viagem<br>21%</div>
-        <div class="category" style="background: #FFEB3B; color: black;">Roupas<br>21%</div>
-        <div class="category" style="background: #FF9800;">Comida<br>10%</div>
-        <div class="category" style="background: #9C27B0;">Saúde<br>7%</div>
+    <div class="container">
+        <!-- Botões lado esquerdo -->
+        <div class="side-buttons">
+            <button class="btn btn-green" onclick="navigate('receita.html')">Receita</button>
+            <button class="btn btn-red" onclick="navigate('despesa.html')">Despesa</button>
+            <button class="btn btn-blue" onclick="navigate('metas.html')">Metas</button>
+            <button class="btn btn-yellow" onclick="navigate('relatorio.html')">Relatório</button>
+        </div>
+
+        <!-- Conteúdo central -->
+        <div class="center-content">
+            <div class="chart-container">
+                <canvas id="financeChart"></canvas>
+                <div class="chart-center">R$3060</div>
+            </div>
+        </div>
+
+        <!-- Categorias lado direito -->
+        <div class="categories">
+            <div class="category" style="background: #4CAF50;">Casa<br>15%</div>
+            <div class="category" style="background: #E53935;">Outros<br>24%</div>
+            <div class="category" style="background: #1E88E5;">Viagem<br>21%</div>
+            <div class="category" style="background: #bba800; color: rgb(255, 255, 255);">Lazer<br>21%</div>
+            <div class="category" style="background: #FF9800;">Comida<br>10%</div>
+            <div class="category" style="background: #9C27B0;">Saúde<br>7%</div>
+        </div>
     </div>
-    
-    <div class="chart-container">
-        <canvas id="financeChart"></canvas>
-        <div class="chart-center">R$3060</div>
-    </div>
-    
-    <button class="btn">Mais detalhes</button>
     
     <script>
         function navigate(page) {
@@ -158,7 +224,7 @@
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Casa', 'Outros', 'Viagem', 'Roupas', 'Comida', 'Saúde'],
+                labels: ['Casa', 'Outros', 'Viagem', 'Lazer', 'Comida', 'Saúde'],
                 datasets: [{
                     data: [15, 24, 21, 21, 10, 7],
                     backgroundColor: ['#4CAF50', '#E53935', '#1E88E5', '#FFEB3B', '#FF9800', '#9C27B0']
@@ -168,7 +234,7 @@
                 plugins: {
                     legend: { display: false }
                 },
-                cutout: '70%'
+                cutout: '60%'
             }
         });
     </script>
