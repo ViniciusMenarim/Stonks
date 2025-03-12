@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stonks - Controle Financeiro</title>
+    <title>Stonks - Gastos Gerais</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -12,18 +12,17 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            color: aliceblue;
+            color: white;
         }
 
         body {
-            background: linear-gradient(to bottom, #444, #111);
+            background: linear-gradient(to bottom, #333, #000);
             color: white;
             display: flex;
-            
             flex-direction: column;
             align-items: center;
             height: 100vh;
-            transition: background 0.5s ease;
+            padding: 20px;
         }
 
         .header {
@@ -45,16 +44,17 @@
         }
 
         .user-info img {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid white;
         }
 
         .header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: #8fd489;
+            margin-right: 86px;
         }
 
         .settings-btn {
@@ -65,8 +65,8 @@
         }
 
         .settings-btn img {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             opacity: 0.8;
         }
 
@@ -74,81 +74,52 @@
             transform: scale(1.1);
         }
 
-        .toggle-mode {
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: 0.3s ease-in-out;
-        }
-
-        .content {
+        .categories {
             display: flex;
-            width: 90%;
-            max-width: 1100px;
-            height: auto;
-            margin-top: 30px;
-            gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 40px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            min-width: 320px;
-            flex: 1;
-        }
-
-        .saldo-total {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #8fd489;
-            margin-top: 20px;
-            transition: color 0.5s ease-in-out;
-        }
-
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
             gap: 15px;
-            justify-content: center;
             margin-top: 20px;
         }
 
-        .btn {
-            background: linear-gradient(135deg, #8fd489, #5b8f4f);
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            cursor: pointer;
-            font-size: 1.2em;
-            width: 180px;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn:hover {
-            background: linear-gradient(135deg, #5b8f4f, #3b6f2f);
-            transform: scale(1.05);
+        .category {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .chart-container {
-            background: rgba(224, 220, 220, 0.14);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            min-width: 320px;
-            flex: 1;
+            position: relative;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
         }
-        
 
+        .chart-center {
+            position: absolute;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #8fd489;
+        }
+
+        .btn {
+            background: gray;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -157,65 +128,36 @@
             <img src="profile.png" alt="User"> <span>Marcelo</span>
         </div>
         <h1>Stonks</h1>
-        <div>
-            
-            <button class="settings-btn" onclick="navigate('settings.html')">
-                <img src="settings.png" alt="Configurações">
-            </button>
-        </div>
+        <button class="settings-btn" onclick="navigate('settings.html')">
+            <img src="settings.png" alt="Configurações">
+        </button>
     </div>
     
-    <div class="content">
-        <div class="card">
-            <p><strong>Banco do Brasil</strong> - R$ 4.500,00</p>
-            <p><strong>Nubank</strong> - R$ 1.500,00</p>
-            <p><strong>Carteira (Dinheiro Físico)</strong> - R$ 500,00</p>
-            <p class="saldo-total">Saldo Total: R$ 6.500,00</p>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="financeChart"></canvas>
-        </div>
+    <div class="categories">
+        <div class="category" style="background: #4CAF50;">Casa<br>15%</div>
+        <div class="category" style="background: #E53935;">Outros<br>24%</div>
+        <div class="category" style="background: #1E88E5;">Viagem<br>21%</div>
+        <div class="category" style="background: #FFEB3B; color: black;">Roupas<br>21%</div>
+        <div class="category" style="background: #FF9800;">Comida<br>10%</div>
+        <div class="category" style="background: #9C27B0;">Saúde<br>7%</div>
     </div>
-
-    <div class="buttons">
-        <button class="btn" onclick="navigate('metas.html')">Metas Financeiras</button>
-        <button class="btn" onclick="navigate('gastos.html')">Gastos Gerais</button>
-        <button class="btn" onclick="navigate('relatorios.html')">Relatórios Rápidos</button>
-        <button class="btn" onclick="navigate('lista.html')">Lista Geral</button>
-        <button class="btn" onclick="navigate('resumo.html')">Resumo Financeiro</button>
+    
+    <div class="chart-container">
+        <canvas id="financeChart"></canvas>
+        <div class="chart-center">R$3060</div>
     </div>
-
+    
+    <button class="btn">Mais detalhes</button>
+    
     <script>
         function navigate(page) {
             window.location.href = page;
         }
 
-        function toggleMode() {
-            document.body.classList.toggle("light-mode");
-        }
-
         const ctx = document.getElementById('financeChart').getContext('2d');
-new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['Banco do Brasil', 'Nubank', 'Carteira'],
-        datasets: [{
-            data: [4500, 1500, 500],
-            backgroundColor: ['#8fd489', '#5b8f4f', '#3b6f2f']
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                labels: {
-                    color: 'white' 
-                }
-            }
-        }
-    }
-});
 
+            }
+        });
     </script>
 </body>
 </html>
