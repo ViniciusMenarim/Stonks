@@ -1,0 +1,116 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1e272e, #000);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0;
+}
+
+.login-container {
+    width: 400px;
+    padding: 30px;
+    background: rgba(34, 34, 34, 0.95);
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+h1 {
+    margin-bottom: 25px;
+    letter-spacing: 3px;
+    user-select: none;
+    pointer-events: none;
+    font-weight: 700;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: #f1f1f1;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background: #333;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus {
+    background: #444;
+    transform: scale(1.03);
+    border-color: #2980b9;
+}
+
+input::placeholder {
+    color: #aaa;
+    text-align: center;
+}
+
+button {
+    width: 90%;
+    padding: 12px;
+    background: #2980b9;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #3498db;
+    transform: scale(1.05);
+}
+
+.forgot-password {
+    font-size: 13px;
+    color: #bbb;
+    cursor: pointer;
+    margin-top: 12px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.create-account {
+    background: none;
+    color: #bbb;
+    margin-top: 12px;
+    border: 1px solid #555;
+    padding: 10px;
+    font-weight: 600;
+    transition: color 0.3s, border 0.3s, transform 0.3s;
+}
+
+.create-account:hover {
+    color: white;
+    border: 1px solid #2980b9;
+    transform: scale(1.05);
+}
+
+input, button {
+    outline: none;
+    border: none;
+}
