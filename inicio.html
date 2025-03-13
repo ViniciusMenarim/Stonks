@@ -176,12 +176,27 @@
     background: rgba(255, 255, 255, 0.15);
     text-align: center;
 }
+
+.profile-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em; /* Aumenta o tamanho */
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.profile-btn:hover {
+    color: #8fd489; /* Altera a cor ao passar o mouse */
+}
+
     </style>
 </head>
 <body>
     <div class="header">
         <div class="user-info">
-            <img src="profile.png" alt="User"> <span>Marcelo</span>
+            <button class="profile-btn" onclick="navigate('profile.html')">Marcelo</button>
         </div>
         <h1>Stonks</h1>
         <button class="settings-btn" onclick="navigate('settings.html')">
