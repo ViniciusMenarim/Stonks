@@ -1,5 +1,3 @@
-<!--Nome do arquivo: despesa.html-->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -44,7 +42,7 @@
             align-items: center;
         }
 
-        input, select, button {
+        input, select, textarea, button {
             width: 90%;
             margin: 8px 0;
             padding: 10px;
@@ -54,10 +52,15 @@
             text-align: center;
         }
 
-        input {
+        input, textarea {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
         }
 
         button {
@@ -82,11 +85,11 @@
     <div class="container">
         <h1>Adicionar Despesa</h1>
         <div class="input-group">
-            <input type="text" placeholder="Nome da Despesa">
-            <input type="text" placeholder="Descrição">
-            <input type="date" id="data_despesa" readonly>
-            <input type="number" placeholder="Valor">
-            <select>
+            <input type="text" id="descricao" placeholder="Nome da Despesa">
+            <textarea id="detalhes" placeholder="Descrição detalhada da despesa"></textarea>
+            <input type="number" id="valor" placeholder="Valor">
+            <input type="date" id="data_despesa">
+            <select id="categoria">
                 <option value="Casa">Casa</option>
                 <option value="Lazer">Lazer</option>
                 <option value="Viagem">Viagem</option>
@@ -95,12 +98,49 @@
                 <option value="Outros">Outros</option>
             </select>
         </div>
-        <button>Salvar Despesa</button>
+        <button onclick="salvarDespesa()">Salvar Despesa</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
 
     <script>
         document.getElementById('data_despesa').value = new Date().toISOString().split('T')[0];
+
+async function salvarDespesa() {
+    const descricao = document.getElementById('descricao').value.trim();
+    const detalhes = document.getElementById('detalhes').value.trim();
+    const valor = document.getElementById('valor').value.trim();
+    const data_pagamento = document.getElementById('data_despesa').value;
+    const categoria = document.getElementById('categoria').value;
+    const id_usuario = 1; // Troque pelo ID do usuário autenticado
+
+    if (!descricao || !valor || !data_pagamento || !categoria) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+    }
+
+    console.log("Enviando requisição para salvar despesa..."); // Para debug
+
+    try {
+        const resposta = await fetch('http://localhost:3000/despesa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_usuario, descricao, detalhes, valor, data_pagamento, categoria })
+        });
+
+        const data = await resposta.json();
+        console.log("Resposta do servidor:", data);
+
+        if (resposta.ok) {
+            alert("Despesa adicionada com sucesso!");
+            window.location.href = "inicio.html";
+        } else {
+            alert(data.message || "Erro ao adicionar despesa.");
+        }
+    } catch (error) {
+        console.error("Erro ao conectar com o servidor:", error);
+        alert("Erro ao conectar com o servidor. Verifique a conexão.");
+    }
+}
     </script>
 </body>
 </html>

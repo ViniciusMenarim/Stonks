@@ -74,6 +74,25 @@ app.post('/login', (req, res) => {
     });
 });
 
+// ========================== REGISTRAR DESPESA ==========================
+app.post('/despesa', (req, res) => {
+    const { id_usuario, descricao, detalhes, valor, data_pagamento, categoria } = req.body;
+
+    if (!id_usuario || !descricao || !valor || !data_pagamento || !categoria) {
+        return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
+    }
+
+    const insertSql = 'INSERT INTO DESPESA (id_usuario, descricao, valor, data_pagamento, categoria) VALUES (?, ?, ?, ?, ?)';
+    
+    db.query(insertSql, [id_usuario, descricao, valor, data_pagamento, categoria], (err, result) => {
+        if (err) {
+            console.error("Erro ao registrar despesa:", err);
+            return res.status(500).json({ message: "Erro ao registrar despesa" });
+        }
+        res.json({ message: "Despesa registrada com sucesso!" });
+    });
+});
+
 // ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');

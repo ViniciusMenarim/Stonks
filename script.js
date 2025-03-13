@@ -77,3 +77,31 @@ function editarEmail() {
         alert("E-mail atualizado com sucesso!");
     }
 }
+
+async function salvarDespesa() {
+    const descricao = document.getElementById('descricao').value.trim();
+    const valor = document.getElementById('valor').value.trim();
+    const data_pagamento = document.getElementById('data_despesa').value;
+    const categoria = document.getElementById('categoria').value;
+    const id_usuario = 1; // Troque por um ID real (pode ser armazenado no localStorage após login)
+
+    if (!descricao || !valor || !data_pagamento || !categoria) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    const resposta = await fetch('http://localhost:3000/despesa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_usuario, descricao, valor, data_pagamento, categoria })
+    });
+
+    const data = await resposta.json();
+
+    if (resposta.ok) {
+        alert("Despesa adicionada com sucesso!");
+        window.location.href = "inicio.html";
+    } else {
+        alert(data.message || "Erro ao adicionar despesa.");
+    }
+}
