@@ -52,7 +52,7 @@
         
 
         .header h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 600;
             color: #8fd489;
             margin-right: 610px;
@@ -144,11 +144,12 @@
         }
 
         .chart-center {
-            position: absolute;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #8fd489;
-        }
+    position: absolute;
+    font-size: 2.5em; /* Aumenta o tamanho do número */
+    font-weight: bold;
+    color: #8fd489;
+}
+
 
         .categories {
     position: absolute;
@@ -186,6 +187,30 @@
     cursor: pointer;
     transition: color 0.3s ease;
 }
+
+.side-buttons .btn {
+    outline: 2px solid white; /* Adiciona a borda branca */
+    transition: outline 0.3s ease-in-out;
+}
+
+.side-buttons .btn {
+    outline: 2px solid white; /* Mantém a borda branca */
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7); /* Sombra mais intensa */
+    transition: all 0.2s ease-in-out;
+}
+
+.side-buttons .btn:active {
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9); /* Reduz a sombra para dar efeito de pressionado */
+    transform: translateY(4px); /* Move o botão para baixo, aumentando o efeito de clique */
+}
+
+
+
+.categories .category {
+    outline: 2px solid white; /* Adiciona a borda branca */
+    transition: outline 0.3s ease-in-out;
+}
+
 
 .profile-btn:hover {
     color: #8fd489; /* Altera a cor ao passar o mouse */
