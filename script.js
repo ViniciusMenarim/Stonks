@@ -25,7 +25,7 @@ async function criarNovaConta() {
 
     if (resposta.ok) {
         alert("Conta criada com sucesso!");
-        window.location.href = "index.html";
+        window.location.href = "entrar.html"; // Corrigido de 'index.html' para 'entrar.html'
     } else {
         alert(data.message);
     }
@@ -50,7 +50,7 @@ async function entrar() {
 
     if (resposta.ok) {
         alert("Login realizado com sucesso!");
-        window.location.href = "dashboard.html";
+        window.location.href = "inicio.html"; // Corrigido de 'dashboard.html' para 'inicio.html'
     } else {
         alert(data.message);
     }
