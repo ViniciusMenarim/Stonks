@@ -1,3 +1,5 @@
+// Nome do arquivo: script.js
+
 async function criarNovaConta() {
     const nome = document.getElementById('nome').value.trim();
     const email = document.getElementById('email').value.trim();
