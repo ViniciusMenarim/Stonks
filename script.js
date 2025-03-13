@@ -44,3 +44,4 @@ function entrar() {
     // Aqui você pode adicionar a lógica de autenticação antes de redirecionar
     window.location.href = "inicio.html";
 }
+
