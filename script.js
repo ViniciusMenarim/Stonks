@@ -25,6 +25,7 @@ async function criarNovaConta() {
 
     if (resposta.ok) {
         alert("Conta criada com sucesso!");
+<<<<<<< Updated upstream
         window.location.href = "entrar.html"; // Corrigido de 'index.html' para 'entrar.html'
     } else {
         alert(data.message);
@@ -55,3 +56,30 @@ async function entrar() {
         alert(data.message);
     }
 }
+=======
+        window.location.href = "login.html"; // Redireciona para a página de login
+    }
+}
+
+function voltarLogin() {
+    window.location.href = "login.html"; // Agora volta corretamente para a página de login
+}
+
+function editarNome() {
+    let novoNome = prompt("Digite seu novo nome completo:");
+    if (novoNome) {
+        document.getElementById("profileName").innerText = novoNome;
+        alert("Nome atualizado com sucesso!");
+    }
+}
+
+function editarEmail() {
+    let novoEmail = prompt("Digite seu novo e-mail:");
+    if (novoEmail) {
+        document.getElementById("profileEmail").innerText = novoEmail;
+        alert("E-mail atualizado com sucesso!");
+    }
+}
+
+
+>>>>>>> Stashed changes

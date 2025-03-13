@@ -1,35 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil - STONKS</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Perfil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #222, #000);
+            color: white;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .password-group {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        input, button {
+            width: 95%;
+            margin: 10px 0;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .password-group input {
+            width: calc(100% - 90px);
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .toggle-password, .edit-password {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            margin-left: 10px;
+        }
+
+        .toggle-password:hover, .edit-password:hover {
+            background: #4CAF50;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            width: 95%;
+        }
+
+        button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            background: gray;
+            margin-top: 12px;
+        }
+
+        .password-container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="profile-container">
-        <a href="index.html" class="back-button">&#8592; Voltar</a>
+    <div class="container">
         <h1>Perfil</h1>
-        <div class="profile-info">
-            <h2>Suas informações</h2>
-            <div class="info-box">
-                <span>Nome Completo:</span>
-                <span id="profileName">Roberto Silva</span>
-                <button onclick="editarNome()"><i class="fas fa-edit"></i> Editar</button>
-            </div>
-            <div class="info-box">
-                <span>Email:</span>
-                <span id="profileEmail">robertopera21@gmail.com</span>
-                <button onclick="editarEmail()"><i class="fas fa-edit"></i> Editar</button>
-            </div>
-            <div class="info-box password-box">
-                <span>Senha atual:</span>
-                <span id="passwordField">************</span>
-                <button onclick="togglePassword()"><i class="fas fa-eye"></i> Visualizar</button>
+        <div class="input-group">
+            <input type="text" placeholder="Nome" value="Marcelo">
+            <input type="email" placeholder="E-mail" value="marcelo@email.com">
+            <div class="password-container">
+                <div class="password-group">
+                    <input type="password" id="password" value="12345678">
+                    <button type="button" class="edit-password" onclick="enablePasswordEdit()">✏️</button>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
+                </div>
             </div>
         </div>
+        <button onclick="savePassword()">Salvar Alterações</button>
+        <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
+
+        function enablePasswordEdit() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.removeAttribute('disabled');
+            passwordInput.focus();
+        }
+
+        function savePassword() {
+            const passwordInput = document.getElementById('password');
+            fetch('/api/alterar-senha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ senha: passwordInput.value })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Senha alterada com sucesso!');
+                } else {
+                    alert('Erro ao alterar a senha.');
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
 </body>
 </html>
