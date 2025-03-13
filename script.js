@@ -25,10 +25,9 @@ async function criarNovaConta() {
 
     if (resposta.ok) {
         alert("Conta criada com sucesso!");
-<<<<<<< Updated upstream
         window.location.href = "entrar.html"; // Corrigido de 'index.html' para 'entrar.html'
     } else {
-        alert(data.message);
+        alert(data.message || "Erro ao criar conta.");
     }
 }
 
@@ -53,16 +52,12 @@ async function entrar() {
         alert("Login realizado com sucesso!");
         window.location.href = "inicio.html"; // Corrigido de 'dashboard.html' para 'inicio.html'
     } else {
-        alert(data.message);
-    }
-}
-=======
-        window.location.href = "login.html"; // Redireciona para a página de login
+        alert(data.message || "Erro ao fazer login.");
     }
 }
 
 function voltarLogin() {
-    window.location.href = "login.html"; // Agora volta corretamente para a página de login
+    window.location.href = "entrar.html"; // Agora volta corretamente para a página de login
 }
 
 function editarNome() {
@@ -80,6 +75,3 @@ function editarEmail() {
         alert("E-mail atualizado com sucesso!");
     }
 }
-
-
->>>>>>> Stashed changes
