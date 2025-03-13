@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Gastos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #333, #000);
+            color: white;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #ff4c4c;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input, button {
+            width: 90%;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            outline: none;
+        }
+
+        button {
+            background: #ff4c4c;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #e53935;
+        }
+
+        .back-btn {
+            background: gray;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Relatório de Gastos</h1>
+        <div class="input-group">
+            <label for="data_inicio">Data Inicial:</label>
+            <input type="date" id="data_inicio" placeholder="Data Início">
+            
+            <label for="data_fim">Data Final:</label>
+            <input type="date" id="data_fim" placeholder="Data Fim">
+        </div>
+        
+        <button onclick="gerarRelatorio()">Gerar Relatório</button>
+        <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
+        
+        <table id="tabela-relatorio" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-relatorio">
+                <!-- Dados inseridos dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function gerarRelatorio() {
+            let dataInicio = document.getElementById('data_inicio').value;
+            let dataFim = document.getElementById('data_fim').value;
+            let tabela = document.getElementById('tabela-relatorio');
+            let corpoTabela = document.getElementById('corpo-relatorio');
+            
+            if (!dataInicio || !dataFim) {
+                alert('Por favor, selecione um período válido.');
+                return;
+            }
+
+            // Simulação de dados (poderia vir de um backend ou localStorage)
+            let despesas = [
+                { data: '2025-03-01', nome: 'Aluguel', valor: '1200', categoria: 'Casa' },
+                { data: '2025-03-05', nome: 'Supermercado', valor: '350', categoria: 'Comida' },
+                { data: '2025-03-10', nome: 'Plano de Saúde', valor: '450', categoria: 'Saúde' },
+                { data: '2025-03-15', nome: 'Cinema', valor: '50', categoria: 'Lazer' },
+            ];
+
+            let despesasFiltradas = despesas.filter(despesa => 
+                despesa.data >= dataInicio && despesa.data <= dataFim
+            );
+
+            corpoTabela.innerHTML = '';
+            despesasFiltradas.forEach(d => {
+                let row = `<tr>
+                    <td>${d.data}</td>
+                    <td>${d.nome}</td>
+                    <td>R$ ${d.valor}</td>
+                    <td>${d.categoria}</td>
+                </tr>`;
+                corpoTabela.innerHTML += row;
+            });
+
+            tabela.style.display = despesasFiltradas.length ? 'table' : 'none';
+        }
+    </script>
+</body>
+</html>

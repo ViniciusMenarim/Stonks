@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Despesa</title>
+    <title>Metas Financeiras</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -32,7 +32,7 @@
         }
 
         h1 {
-            color: #ff4c4c;
+            color: #b8ad0e;
         }
 
         .input-group {
@@ -42,7 +42,14 @@
             align-items: center;
         }
 
-        input, select, button {
+        .input-group label {
+            width: 90%;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        input, button {
             width: 90%;
             margin: 8px 0;
             padding: 10px;
@@ -59,7 +66,7 @@
         }
 
         button {
-            background: #ff4c4c;
+            background: #b8bb0b;
             color: white;
             font-size: 1.2em;
             cursor: pointer;
@@ -67,7 +74,7 @@
         }
 
         button:hover {
-            background: #e53935;
+            background: #b7b70a;
         }
 
         .back-btn {
@@ -78,27 +85,26 @@
 </head>
 <body>
     <div class="container">
-        <h1>Adicionar Despesa</h1>
+        <h1>Metas Financeiras</h1>
         <div class="input-group">
-            <input type="text" placeholder="Nome da Despesa">
-            <input type="text" placeholder="Descrição">
-            <input type="date" id="data_despesa" readonly>
-            <input type="number" placeholder="Valor">
-            <select>
-                <option value="Casa">Casa</option>
-                <option value="Lazer">Lazer</option>
-                <option value="Viagem">Viagem</option>
-                <option value="Comida">Comida</option>
-                <option value="Saúde">Saúde</option>
-                <option value="Outros">Outros</option>
-            </select>
+            <label for="titulo">Título da Meta</label>
+            <input type="text" id="titulo" placeholder="Digite o título">
+
+            <label for="valor_meta">Valor da Meta</label>
+            <input type="number" id="valor_meta" placeholder="Digite o valor da meta">
+
+            <label for="valor_acumulado">Valor Acumulado</label>
+            <input type="number" id="valor_acumulado" placeholder="Digite o valor acumulado">
+
+            <label for="data_inicio">Data de Início</label>
+            <input type="date" id="data_inicio">
+
+            <label for="data_fim">Data Final</label>
+            <input type="date" id="data_fim">
         </div>
-        <button>Salvar Despesa</button>
+        
+        <button>Salvar Meta</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
-
-    <script>
-        document.getElementById('data_despesa').value = new Date().toISOString().split('T')[0];
-    </script>
 </body>
 </html>

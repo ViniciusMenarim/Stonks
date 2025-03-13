@@ -12,28 +12,44 @@
             text-align: center;
             font-family: 'Poppins', sans-serif;
             padding: 20px;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             max-width: 400px;
-            margin: auto;
+            width: 100%;
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
             color: #4CAF50;
         }
 
-        input, select, button {
+        .input-group {
             width: 100%;
-            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input, select, button {
+            width: 90%;
+            margin: 8px 0;
             padding: 10px;
             border-radius: 5px;
             border: none;
             font-size: 1em;
+            text-align: center;
         }
 
         input {
@@ -61,18 +77,20 @@
     </style>
 </head>
 <body>
-    <h1>Adicionar Receita</h1>
     <div class="container">
-        <input type="text" placeholder="Nome da Receita">
-        <input type="text" placeholder="Descrição">
-        <input type="date" id="data_receita" readonly>
-        <input type="number" placeholder="Valor">
-        <select>
-            <option value="Salário">Salário</option>
-            <option value="Freelance">Freelance</option>
-            <option value="Investimentos">Investimentos</option>
-            <option value="Outros">Outros</option>
-        </select>
+        <h1>Adicionar Receita</h1>
+        <div class="input-group">
+            <input type="text" placeholder="Nome da Receita">
+            <input type="text" placeholder="Descrição">
+            <input type="date" id="data_receita" readonly>
+            <input type="number" placeholder="Valor">
+            <select>
+                <option value="Salário">Salário</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Investimentos">Investimentos</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
         <button>Salvar Receita</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
