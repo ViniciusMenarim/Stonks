@@ -2,22 +2,16 @@ function entrar() {
     let login = document.getElementById('login').value.trim();
     let senha = document.getElementById('senha').value.trim();
     
-    if (login === "" || senha === "") {
+    if (!login || !senha) {
         alert("Por favor, preencha todos os campos!");
     } else {
         alert("Login realizado com sucesso!");
-        // Aqui pode ser adicionado o redirecionamento para o dashboard
+        window.location.href = "inicio.html"; // Redireciona para a página inicial
     }
 }
 
-function esqueceuSenha() {
-    alert("Redirecionando para recuperação de senha...");
-    // Aqui pode ser implementado um sistema de recuperação de senha
-}
-
 function criarConta() {
-    window.location.href = "create_account.html";
-    // Redireciona para a tela de criação de conta
+    window.location.href = "create_account.html"; // Redireciona para criar conta
 }
 
 function criarNovaConta() {
@@ -26,21 +20,42 @@ function criarNovaConta() {
     let senha = document.getElementById('senha').value.trim();
     let confirmarSenha = document.getElementById('confirmarSenha').value.trim();
     
-    if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
+    if (!nome || !email || !senha || !confirmarSenha) {
         alert("Preencha todos os campos!");
     } else if (senha !== confirmarSenha) {
         alert("As senhas não coincidem!");
     } else {
         alert("Conta criada com sucesso!");
-        window.location.href = "index.html"; // Redireciona para a tela de login
+        window.location.href = "login.html"; // Redireciona para a página de login
     }
 }
 
 function voltarLogin() {
-    window.location.href = "login.html";
+    window.location.href = "login.html"; // Agora volta corretamente para a página de login
 }
 
-function entrar() {
-    // Aqui você pode adicionar a lógica de autenticação antes de redirecionar
-    window.location.href = "inicio.html";
+function editarNome() {
+    let novoNome = prompt("Digite seu novo nome completo:");
+    if (novoNome) {
+        document.getElementById("profileName").innerText = novoNome;
+        alert("Nome atualizado com sucesso!");
+    }
+}
+
+function editarEmail() {
+    let novoEmail = prompt("Digite seu novo e-mail:");
+    if (novoEmail) {
+        document.getElementById("profileEmail").innerText = novoEmail;
+        alert("E-mail atualizado com sucesso!");
+    }
+}
+
+function togglePassword() {
+    let passwordField = document.getElementById("passwordField");
+    if (passwordField.innerText === "************") {
+        passwordField.innerText = "MinhaSenha123"; // Aqui deve ser integrada com backend
+    } else {
+        passwordField.innerText = "************";
+    }
+    passwordField.classList.toggle("password-visible");
 }

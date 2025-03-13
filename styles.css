@@ -1,35 +1,109 @@
+/* ====== ESTILIZAÇÃO GERAL ====== */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom, #1e272e, #000);
+    background: linear-gradient(to bottom, #1b1b1b, #000);
     font-family: 'Poppins', sans-serif;
     color: white;
     margin: 0;
+    padding: 20px;
 }
 
-.login-container {
-    width: 400px;
-    padding: 30px;
-    background: rgba(34, 34, 34, 0.95);
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+/* ====== CONTAINER GERAL ====== */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ====== ESTILIZAÇÃO DOS PAINÉIS ====== */
+.login-container, .profile-container {
+    width: 420px;
+    padding: 35px;
+    background: rgba(34, 34, 34, 0.98);
+    border-radius: 15px;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.7);
     text-align: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease-in-out;
+    position: relative;
 }
 
-h1 {
-    margin-bottom: 25px;
-    letter-spacing: 3px;
-    user-select: none;
-    pointer-events: none;
+.login-container:hover, .profile-container:hover {
+    transform: translateY(-5px);
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    letter-spacing: 2px;
     font-weight: 700;
     font-size: 28px;
     text-transform: uppercase;
-    color: #f1f1f1;
+    color: #ffffff;
+    text-shadow: 0px 3px 6px rgba(255, 255, 255, 0.2);
 }
 
+/* ====== ESTILIZAÇÃO DO PERFIL ====== */
+.profile-container {
+    margin-top: 20px;
+    background: rgba(40, 40, 40, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.5);
+    width: 450px;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile-container:hover {
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.8);
+}
+
+.profile-info {
+    font-size: 16px;
+    color: #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-info:last-child {
+    border-bottom: none;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.profile-actions button {
+    width: 48%;
+    padding: 12px;
+    background: linear-gradient(90deg, #2980b9, #3498db);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.profile-actions button:hover {
+    background: linear-gradient(90deg, #1c6ea4, #2980b9);
+    transform: scale(1.05);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilização dos inputs */
 .input-container {
     display: flex;
     flex-direction: column;
@@ -38,22 +112,24 @@ h1 {
 }
 
 input {
-    width: 90%;
+    width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border: 1px solid #555;
-    border-radius: 6px;
-    background: #333;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
     transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
 }
 
 input:focus {
-    background: #444;
+    background: rgba(255, 255, 255, 0.15);
     transform: scale(1.03);
-    border-color: #2980b9;
+    border-color: #3498db;
+    outline: none;
 }
 
 input::placeholder {
@@ -61,27 +137,30 @@ input::placeholder {
     text-align: center;
 }
 
+/* Estilização dos botões */
 button {
-    width: 90%;
+    width: 100%;
     padding: 12px;
-    background: #2980b9;
+    background: linear-gradient(90deg, #0056b3, #007bff);
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     font-weight: 600;
     cursor: pointer;
     margin-top: 15px;
-    font-size: 15px;
+    font-size: 16px;
     transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 button:hover {
-    background: #3498db;
+    background: linear-gradient(90deg, #00408a, #0056b3);
     transform: scale(1.05);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.6);
 }
 
 .forgot-password {
-    font-size: 13px;
+    font-size: 14px;
     color: #bbb;
     cursor: pointer;
     margin-top: 12px;
@@ -94,23 +173,23 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Estilização do botão Criar Conta */
 .create-account {
+    width: 100%;
+    padding: 12px;
     background: none;
-    color: #bbb;
-    margin-top: 12px;
-    border: 1px solid #555;
-    padding: 10px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-weight: 600;
-    transition: color 0.3s, border 0.3s, transform 0.3s;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
 }
 
 .create-account:hover {
-    color: white;
-    border: 1px solid #2980b9;
+    background: linear-gradient(90deg, #0056b3, #007bff);
+    border: 1px solid #0056b3;
     transform: scale(1.05);
-}
-
-input, button {
-    outline: none;
-    border: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }

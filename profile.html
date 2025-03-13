@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - STONKS</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="profile-container">
+        <a href="index.html" class="back-button">&#8592; Voltar</a>
+        <h1>Perfil</h1>
+        <div class="profile-info">
+            <h2>Suas informações</h2>
+            <div class="info-box">
+                <span>Nome Completo:</span>
+                <span id="profileName">Roberto Silva</span>
+                <button onclick="editarNome()"><i class="fas fa-edit"></i> Editar</button>
+            </div>
+            <div class="info-box">
+                <span>Email:</span>
+                <span id="profileEmail">robertopera21@gmail.com</span>
+                <button onclick="editarEmail()"><i class="fas fa-edit"></i> Editar</button>
+            </div>
+            <div class="info-box password-box">
+                <span>Senha atual:</span>
+                <span id="passwordField">************</span>
+                <button onclick="togglePassword()"><i class="fas fa-eye"></i> Visualizar</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
