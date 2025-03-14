@@ -218,3 +218,21 @@ async function gerarRelatorio() {
         alert("Erro ao conectar com o servidor.");
     }
 }
+
+async function carregarUsuario() {
+    try {
+        const resposta = await fetch('http://localhost:3000/usuario-logado');
+        const data = await resposta.json();
+
+        if (resposta.ok) {
+            document.getElementById('profile-btn').textContent = data.nome;
+        } else {
+            document.getElementById('profile-btn').textContent = "Usuário";
+        }
+    } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+    }
+}
+
+// Chamada para carregar o nome do usuário ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarUsuario);

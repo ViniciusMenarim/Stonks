@@ -238,6 +238,27 @@ app.post('/alterar-senha', async (req, res) => {
     }
 });
 
+app.get('/usuario-logado', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const sql = 'SELECT nome FROM USUARIO WHERE id_usuario = ?';
+
+    db.query(sql, [req.session.usuario.id], (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar dados do usuário:", err);
+            return res.status(500).json({ message: "Erro ao buscar usuário." });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado." });
+        }
+
+        res.json({ nome: results[0].nome });
+    });
+});
+
 // ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
 const PORT = 3000;
 app.listen(PORT, () => {

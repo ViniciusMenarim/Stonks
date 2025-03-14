@@ -147,10 +147,11 @@
         }
 
         .side-buttons .btn, .categories .category {
-            outline: 2px solid white;
+            outline: 3px solid white;
             box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.7);
             transition: all 0.2s ease-in-out;
         }
+        
 
         .side-buttons .btn:active {
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9);
@@ -203,7 +204,7 @@
     
     <div class="header">
         <div class="user-info">
-            <button class="profile-btn" onclick="navigate('perfil.html')">Marcelo</button>
+            <button id="profile-btn" class="profile-btn" onclick="navigate('perfil.html')">Carregando...</button>
         </div>
         <h1>Stonks</h1>
     </div>
@@ -231,6 +232,11 @@
         </div>
     </div>
     
+    <script src="script.js"></script>
+<script>
+    carregarUsuario(); // Chama a função ao carregar a página
+</script>
+
     <script>
         function navigate(page) { window.location.href = page; }
 
