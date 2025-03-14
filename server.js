@@ -190,6 +190,54 @@ app.get('/relatorio', (req, res) => {
     });
 });
 
+app.get('/perfil', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const sql = 'SELECT nome, email FROM USUARIO WHERE id_usuario = ?';
+    
+    db.query(sql, [req.session.usuario.id], (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar perfil:", err);
+            return res.status(500).json({ message: "Erro ao buscar dados do usuário." });
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado." });
+        }
+
+        res.json(results[0]); // Retorna apenas nome e email, sem a senha
+    });
+});
+
+app.post('/alterar-senha', async (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const { senha } = req.body;
+    if (!senha || senha.length < 6) {
+        return res.status(400).json({ message: "A senha deve ter pelo menos 6 caracteres." });
+    }
+
+    try {
+        const senhaHash = await bcrypt.hash(senha, 10);
+        const sql = 'UPDATE USUARIO SET senha = ? WHERE id_usuario = ?';
+
+        db.query(sql, [senhaHash, req.session.usuario.id], (err, result) => {
+            if (err) {
+                console.error("Erro ao atualizar senha:", err);
+                return res.status(500).json({ message: "Erro ao atualizar senha." });
+            }
+            res.json({ message: "Senha alterada com sucesso!" });
+        });
+    } catch (error) {
+        console.error("Erro ao criptografar senha:", error);
+        res.status(500).json({ message: "Erro ao processar senha." });
+    }
+});
+
 // ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
 const PORT = 3000;
 app.listen(PORT, () => {

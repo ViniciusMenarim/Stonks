@@ -64,22 +64,6 @@ function voltarLogin() {
     window.location.href = "entrar.html";
 }
 
-function editarNome() {
-    let novoNome = prompt("Digite seu novo nome completo:");
-    if (novoNome) {
-        document.getElementById("profileName").innerText = novoNome;
-        alert("Nome atualizado com sucesso!");
-    }
-}
-
-function editarEmail() {
-    let novoEmail = prompt("Digite seu novo e-mail:");
-    if (novoEmail) {
-        document.getElementById("profileEmail").innerText = novoEmail;
-        alert("E-mail atualizado com sucesso!");
-    }
-}
-
 // ===================== SALVAR DESPESA =====================
 async function salvarDespesa() {
     const descricao = document.getElementById('descricao').value.trim();

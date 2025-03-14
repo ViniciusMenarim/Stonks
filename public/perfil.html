@@ -145,49 +145,64 @@
     <div class="container">
         <h1>Perfil</h1>
         <div class="input-group">
-            <input type="text" placeholder="Nome" value="Marcelo">
-            <input type="email" placeholder="E-mail" value="marcelo@email.com">
-            <div class="password-container">
-                <div class="password-group">
-                    <input type="password" id="password" value="12345678">
-                    <button type="button" class="edit-password" onclick="enablePasswordEdit()">✏️</button>
-                    <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
-                </div>
-            </div>
+            <input type="text" id="nome" placeholder="Nome" disabled>
+            <input type="email" id="email" placeholder="E-mail" disabled>
+            <input type="password" id="password" placeholder="Digite nova senha">
         </div>
         <button onclick="savePassword()">Salvar Alterações</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
 
     <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://localhost:3000/verificar-sessao')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.autenticado) {
+                        window.location.href = "entrar.html"; // Redireciona para login se não estiver autenticado
+                    } else {
+                        carregarPerfil();
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao verificar sessão:", error);
+                    window.location.href = "entrar.html";
+                });
+        });
+    
+        function carregarPerfil() {
+            fetch('http://localhost:3000/perfil')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('nome').value = data.nome;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('password').value = ""; // Mantém a senha oculta
+                })
+                .catch(error => console.error("Erro ao carregar perfil:", error));
         }
-
-        function enablePasswordEdit() {
-            const passwordInput = document.getElementById('password');
-            passwordInput.removeAttribute('disabled');
-            passwordInput.focus();
-        }
-
+    </script>
+    
+    <script>
         function savePassword() {
-            const passwordInput = document.getElementById('password');
-            fetch('/api/alterar-senha', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ senha: passwordInput.value })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Senha alterada com sucesso!');
-                } else {
-                    alert('Erro ao alterar a senha.');
-                }
-            })
-            .catch(error => console.error('Erro:', error));
+        const novaSenha = document.getElementById('password').value.trim();
+
+        if (novaSenha.length < 6) {
+            alert("A senha deve ter pelo menos 6 caracteres.");
+            return;
         }
+
+        fetch('http://localhost:3000/alterar-senha', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ senha: novaSenha })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            document.getElementById('password').value = ""; // Limpa o campo após salvar
+        })
+        .catch(error => console.error("Erro ao alterar senha:", error));
+    }
     </script>
 </body>
 </html>
