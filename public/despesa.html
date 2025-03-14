@@ -84,6 +84,22 @@
     </style>
 </head>
 <body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://localhost:3000/verificar-sessao')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.autenticado) {
+                        window.location.href = "entrar.html"; // Redireciona para login se não estiver autenticado
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao verificar sessão:", error);
+                    window.location.href = "entrar.html";
+                });
+        });
+    </script>
+    
     <div class="container">
         <h1>Adicionar Despesa</h1>
         <div class="input-group">

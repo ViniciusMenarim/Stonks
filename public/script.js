@@ -51,6 +51,8 @@ async function entrar() {
     const data = await resposta.json();
 
     if (resposta.ok) {
+        // Salvar sessão no LocalStorage
+        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
         alert("Login realizado com sucesso!");
         window.location.href = "inicio.html";
     } else {

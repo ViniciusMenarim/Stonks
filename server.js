@@ -41,6 +41,21 @@ db.getConnection((err, connection) => {
     connection.release();
 });
 
+app.use(session({
+    secret: 'stonks_secret',  // Escolha uma chave secreta segura
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Se estiver rodando em HTTPS, mude para true
+}));
+
+app.get('/verificar-sessao', (req, res) => {
+    if (req.session.usuario) {
+        res.json({ autenticado: true, usuario: req.session.usuario });
+    } else {
+        res.json({ autenticado: false });
+    }
+});
+
 // ========================== REGISTRO DE USUÁRIOS ==========================
 app.post('/registrar', async (req, res) => {
     const { nome, email, senha, data_criacao } = req.body;
@@ -82,6 +97,14 @@ app.post('/login', (req, res) => {
         if (!senhaCorreta) {
             return res.status(401).json({ message: "Senha incorreta" });
         }
+
+        // 🔹 Armazena o usuário na sessão
+        req.session.usuario = {
+            id: usuario.id_usuario,
+            nome: usuario.nome,
+            email: usuario.email
+        };
+
         res.json({ message: "Login bem-sucedido", usuario: req.session.usuario });
     });
 });
