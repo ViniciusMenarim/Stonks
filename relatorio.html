@@ -1,5 +1,3 @@
-<!--Nome do arquivo: relatorio.html-->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -81,6 +79,7 @@
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
+            display: none;
         }
 
         th, td {
@@ -94,16 +93,16 @@
         <h1>Relatório</h1>
         <div class="input-group">
             <label for="data_inicio">Data Inicial:</label>
-            <input type="date" id="data_inicio" placeholder="Data Início">
+            <input type="date" id="data_inicio">
             
             <label for="data_fim">Data Final:</label>
-            <input type="date" id="data_fim" placeholder="Data Fim">
+            <input type="date" id="data_fim">
         </div>
         
         <button onclick="gerarRelatorio()">Gerar Relatório</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
         
-        <table id="tabela-relatorio" style="display: none;">
+        <table id="tabela-relatorio">
             <thead>
                 <tr>
                     <th>Data</th>
@@ -118,43 +117,6 @@
         </table>
     </div>
 
-    <script>
-        function gerarRelatorio() {
-            let dataInicio = document.getElementById('data_inicio').value;
-            let dataFim = document.getElementById('data_fim').value;
-            let tabela = document.getElementById('tabela-relatorio');
-            let corpoTabela = document.getElementById('corpo-relatorio');
-            
-            if (!dataInicio || !dataFim) {
-                alert('Por favor, selecione um período válido.');
-                return;
-            }
-
-            // Simulação de dados (poderia vir de um backend ou localStorage)
-            let despesas = [
-                { data: '2025-03-01', nome: 'Aluguel', valor: '1200', categoria: 'Casa' },
-                { data: '2025-03-05', nome: 'Supermercado', valor: '350', categoria: 'Comida' },
-                { data: '2025-03-10', nome: 'Plano de Saúde', valor: '450', categoria: 'Saúde' },
-                { data: '2025-03-15', nome: 'Cinema', valor: '50', categoria: 'Lazer' },
-            ];
-
-            let despesasFiltradas = despesas.filter(despesa => 
-                despesa.data >= dataInicio && despesa.data <= dataFim
-            );
-
-            corpoTabela.innerHTML = '';
-            despesasFiltradas.forEach(d => {
-                let row = `<tr>
-                    <td>${d.data}</td>
-                    <td>${d.nome}</td>
-                    <td>R$ ${d.valor}</td>
-                    <td>${d.categoria}</td>
-                </tr>`;
-                corpoTabela.innerHTML += row;
-            });
-
-            tabela.style.display = despesasFiltradas.length ? 'table' : 'none';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

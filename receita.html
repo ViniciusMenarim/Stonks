@@ -1,5 +1,3 @@
-<!--Nome do arquivo: receita.html-->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -44,7 +42,7 @@
             align-items: center;
         }
 
-        input, select, button {
+        input, select, textarea, button {
             width: 90%;
             margin: 8px 0;
             padding: 10px;
@@ -54,10 +52,15 @@
             text-align: center;
         }
 
-        input {
+        input, textarea {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
         }
 
         button {
@@ -82,23 +85,23 @@
     <div class="container">
         <h1>Adicionar Receita</h1>
         <div class="input-group">
-            <input type="text" placeholder="Nome da Receita">
-            <input type="text" placeholder="Descrição">
-            <input type="date" id="data_receita" readonly>
-            <input type="number" placeholder="Valor">
-            <select>
+            <input type="text" id="descricao" placeholder="Nome da Receita">
+            <input type="number" id="valor" placeholder="Valor">
+            <input type="date" id="data_receita">
+            <select id="categoria">
                 <option value="Salário">Salário</option>
                 <option value="Freelance">Freelance</option>
                 <option value="Investimentos">Investimentos</option>
                 <option value="Outros">Outros</option>
             </select>
         </div>
-        <button>Salvar Receita</button>
+        <button onclick="salvarReceita()">Salvar Receita</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
 
     <script>
         document.getElementById('data_receita').value = new Date().toISOString().split('T')[0];
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
