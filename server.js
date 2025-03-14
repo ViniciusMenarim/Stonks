@@ -11,12 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(session({
-    secret: 'stonks_secret_key', // Chave secreta para a sessão
-    resave: false,
-    saveUninitialized: false, // Agora só cria sessão após login
-    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 } // Sessão expira em 1 hora
-}));
 
 // 📌 Servir arquivos estáticos da pasta "public"
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,44 +39,6 @@ db.getConnection((err, connection) => {
     }
     console.log('Conectado ao MySQL com pool de conexões');
     connection.release();
-});
-
-// ========================== SERVIR O FRONTEND ==========================
-// 📌 Se o usuário acessar a raiz "/", redirecionamos para a página inicial
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'inicio.html'));
-});
-
-// 📌 Rota para verificar autenticação
-app.get('/verificar-sessao', (req, res) => {
-    if (req.session && req.session.usuario) {
-        res.json({ autenticado: true, usuario: req.session.usuario });
-    } else {
-        res.json({ autenticado: false });
-    }
-});
-
-// 📌 Rota para buscar dados da tela inicial
-app.get('/dados-inicio', (req, res) => {
-    if (!req.session.usuario) {
-        return res.status(401).json({ message: "Usuário não autenticado" });
-    }
-
-    const id_usuario = req.session.usuario.id_usuario;
-
-    const sql = `
-        SELECT 'despesa' AS tipo, categoria, SUM(valor) AS total FROM DESPESA WHERE id_usuario = ? GROUP BY categoria
-        UNION
-        SELECT 'receita' AS tipo, categoria, SUM(valor) AS total FROM RECEITA WHERE id_usuario = ? GROUP BY categoria
-    `;
-
-    db.query(sql, [id_usuario, id_usuario], (err, results) => {
-        if (err) {
-            console.error("Erro ao buscar dados:", err);
-            return res.status(500).json({ message: "Erro ao buscar dados" });
-        }
-        res.json(results);
-    });
 });
 
 // ========================== REGISTRO DE USUÁRIOS ==========================
