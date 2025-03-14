@@ -4,11 +4,19 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(session({
+    secret: 'stonks_secret_key', // Chave secreta para a sessão
+    resave: false,
+    saveUninitialized: false, // Agora só cria sessão após login
+    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 } // Sessão expira em 1 hora
+}));
 
 // 📌 Servir arquivos estáticos da pasta "public"
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,6 +53,38 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'inicio.html'));
 });
 
+// 📌 Rota para verificar autenticação
+app.get('/verificar-sessao', (req, res) => {
+    if (req.session && req.session.usuario) {
+        res.json({ autenticado: true, usuario: req.session.usuario });
+    } else {
+        res.json({ autenticado: false });
+    }
+});
+
+// 📌 Rota para buscar dados da tela inicial
+app.get('/dados-inicio', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado" });
+    }
+
+    const id_usuario = req.session.usuario.id_usuario;
+
+    const sql = `
+        SELECT 'despesa' AS tipo, categoria, SUM(valor) AS total FROM DESPESA WHERE id_usuario = ? GROUP BY categoria
+        UNION
+        SELECT 'receita' AS tipo, categoria, SUM(valor) AS total FROM RECEITA WHERE id_usuario = ? GROUP BY categoria
+    `;
+
+    db.query(sql, [id_usuario, id_usuario], (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar dados:", err);
+            return res.status(500).json({ message: "Erro ao buscar dados" });
+        }
+        res.json(results);
+    });
+});
+
 // ========================== REGISTRO DE USUÁRIOS ==========================
 app.post('/registrar', async (req, res) => {
     const { nome, email, senha, data_criacao } = req.body;
@@ -68,6 +108,7 @@ app.post('/registrar', async (req, res) => {
 });
 
 // ========================== LOGIN DE USUÁRIOS ==========================
+// 📌 Rota para login (corrigida para armazenar sessão corretamente)
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
 
@@ -85,7 +126,15 @@ app.post('/login', (req, res) => {
         if (!senhaCorreta) {
             return res.status(401).json({ message: "Senha incorreta" });
         }
-        res.json({ message: "Login bem-sucedido", usuario });
+
+        // 📌 Armazenar informações do usuário na sessão
+        req.session.usuario = {
+            id_usuario: usuario.id_usuario,
+            nome: usuario.nome,
+            email: usuario.email
+        };
+
+        res.json({ message: "Login bem-sucedido", usuario: req.session.usuario });
     });
 });
 
@@ -167,6 +216,13 @@ app.get('/relatorio', (req, res) => {
             return res.status(500).json({ message: "Erro ao buscar relatório" });
         }
         res.json(results);
+    });
+});
+
+// 📌 Rota para logout
+app.post('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.json({ message: "Logout realizado com sucesso" });
     });
 });
 

@@ -152,6 +152,64 @@ async function salvarReceita() {
     }
 }
 
+async function verificarAutenticacao() {
+    try {
+        const resposta = await fetch('/verificar-sessao');
+        const data = await resposta.json();
+        
+        if (!data.autenticado) {
+            window.location.href = "/entrar.html";
+        }
+    } catch (error) {
+        console.error("Erro ao verificar autenticação:", error);
+        window.location.href = "/entrar.html";
+    }
+}
+
+async function carregarDadosInicio() {
+    try {
+        const resposta = await fetch('/dados-inicio');
+        const data = await resposta.json();
+
+        if (!resposta.ok) {
+            console.error("Erro ao buscar dados:", data.message);
+            return;
+        }
+
+        let categorias = {};
+        data.forEach(item => {
+            categorias[item.categoria] = (categorias[item.categoria] || 0) + parseFloat(item.total);
+        });
+
+        let labels = Object.keys(categorias);
+        let valores = Object.values(categorias);
+        let cores = ['#4CAF50', '#E53935', '#1E88E5', '#FFEB3B', '#FF9800', '#9C27B0'];
+
+        new Chart(document.getElementById('financeChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: valores,
+                    backgroundColor: cores.slice(0, labels.length)
+                }]
+            },
+            options: { plugins: { legend: { display: true } }, cutout: '60%' }
+        });
+
+        let totalGasto = valores.reduce((sum, val) => sum + val, 0);
+        document.getElementById("totalGasto").innerText = `R$ ${totalGasto.toFixed(2)}`;
+
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    verificarAutenticacao();
+    carregarDadosInicio();
+});
+
 // ===================== SALVAR META =====================
 async function salvarMeta() {
     const titulo = document.getElementById('titulo').value.trim();
