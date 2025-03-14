@@ -4,10 +4,19 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// 📌 Servir arquivos estáticos da pasta "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 📌 Direcionar para a página de login ao acessar "/"
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'entrar.html'));
+});
 
 // Conexão com o banco de dados MySQL
 const db = mysql.createPool({
@@ -28,6 +37,12 @@ db.getConnection((err, connection) => {
     }
     console.log('Conectado ao MySQL com pool de conexões');
     connection.release();
+});
+
+// ========================== SERVIR O FRONTEND ==========================
+// 📌 Se o usuário acessar a raiz "/", redirecionamos para a página inicial
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'inicio.html'));
 });
 
 // ========================== REGISTRO DE USUÁRIOS ==========================
@@ -76,7 +91,7 @@ app.post('/login', (req, res) => {
 
 // ========================== REGISTRAR DESPESA ==========================
 app.post('/despesa', (req, res) => {
-    const { id_usuario, descricao, detalhes, valor, data_pagamento, categoria } = req.body;
+    const { id_usuario, descricao, valor, data_pagamento, categoria } = req.body;
 
     if (!id_usuario || !descricao || !valor || !data_pagamento || !categoria) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
@@ -95,7 +110,7 @@ app.post('/despesa', (req, res) => {
 
 // ========================== REGISTRAR RECEITA ==========================
 app.post('/receita', (req, res) => {
-    const { id_usuario, descricao, detalhes, valor, data_recebimento, categoria } = req.body;
+    const { id_usuario, descricao, valor, data_recebimento, categoria } = req.body;
 
     if (!id_usuario || !descricao || !valor || !data_recebimento || !categoria) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
@@ -156,6 +171,7 @@ app.get('/relatorio', (req, res) => {
 });
 
 // ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em: http://localhost:${PORT}`);
 });
