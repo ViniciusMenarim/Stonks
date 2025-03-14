@@ -82,14 +82,6 @@ app.post('/login', (req, res) => {
         if (!senhaCorreta) {
             return res.status(401).json({ message: "Senha incorreta" });
         }
-
-        // 📌 Armazenar informações do usuário na sessão
-        req.session.usuario = {
-            id_usuario: usuario.id_usuario,
-            nome: usuario.nome,
-            email: usuario.email
-        };
-
         res.json({ message: "Login bem-sucedido", usuario: req.session.usuario });
     });
 });
@@ -172,13 +164,6 @@ app.get('/relatorio', (req, res) => {
             return res.status(500).json({ message: "Erro ao buscar relatório" });
         }
         res.json(results);
-    });
-});
-
-// 📌 Rota para logout
-app.post('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.json({ message: "Logout realizado com sucesso" });
     });
 });
 
