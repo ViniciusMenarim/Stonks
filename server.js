@@ -243,11 +243,11 @@ app.get('/usuario-logado', (req, res) => {
         return res.status(401).json({ message: "Usuário não autenticado." });
     }
 
-    const sql = 'SELECT nome FROM USUARIO WHERE id_usuario = ?';
+    const sql = 'SELECT id_usuario AS id, nome, email FROM USUARIO WHERE id_usuario = ?';
 
     db.query(sql, [req.session.usuario.id], (err, results) => {
         if (err) {
-            console.error("Erro ao buscar dados do usuário:", err);
+            console.error("❌ Erro ao buscar dados do usuário:", err);
             return res.status(500).json({ message: "Erro ao buscar usuário." });
         }
 
@@ -255,12 +255,66 @@ app.get('/usuario-logado', (req, res) => {
             return res.status(404).json({ message: "Usuário não encontrado." });
         }
 
-        res.json({ nome: results[0].nome });
+        res.json({
+            id: results[0].id,
+            nome: results[0].nome,
+            email: results[0].email
+        });
     });
 });
+
 
 // ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando em: http://localhost:${PORT}`);
+});
+
+app.get('/categorias-despesas', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const id_usuario = req.session.usuario.id;
+
+    // Lista de categorias padrão para garantir que todas sejam exibidas
+    const categoriasPadrao = [
+        { nome: "Casa", cor: "#4CAF50" },
+        { nome: "Outros", cor: "#E53935" },
+        { nome: "Viagem", cor: "#1E88E5" },
+        { nome: "Lazer", cor: "#bba800" },
+        { nome: "Comida", cor: "#FF9800" },
+        { nome: "Saúde", cor: "#9C27B0" }
+    ];
+
+    // Consulta despesas reais do usuário
+    const sql = `
+        SELECT categoria AS nome, 
+               ROUND(SUM(valor) * 100 / (SELECT SUM(valor) FROM DESPESA WHERE id_usuario = ?), 2) AS percentual
+        FROM DESPESA
+        WHERE id_usuario = ?
+        GROUP BY categoria;
+    `;
+
+    db.query(sql, [id_usuario, id_usuario], (err, results) => {
+        if (err) {
+            console.error("❌ Erro ao buscar categorias:", err);
+            return res.status(500).json({ message: "Erro ao carregar categorias" });
+        }
+
+        // Cria um mapa das categorias existentes com valores reais
+        const categoriasMap = {};
+        results.forEach(row => {
+            categoriasMap[row.nome] = { percentual: row.percentual };
+        });
+
+        // Adiciona todas as categorias padrões e, se não existirem despesas, coloca 0%
+        const categoriasFinal = categoriasPadrao.map(cat => ({
+            nome: cat.nome,
+            percentual: categoriasMap[cat.nome] ? categoriasMap[cat.nome].percentual : 0,
+            cor: cat.cor
+        }));
+
+        res.json(categoriasFinal);
+    });
 });
