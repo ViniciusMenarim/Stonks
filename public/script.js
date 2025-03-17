@@ -271,3 +271,63 @@
     // 🔹 Chama a função ao carregar a página
     document.addEventListener("DOMContentLoaded", carregarCategorias);
     
+    async function carregarGraficoPizza() {
+        try {
+            const resposta = await fetch('http://localhost:3000/dados-grafico');
+            const dados = await resposta.json();
+    
+            console.log("✅ Dados do gráfico carregados:", dados);
+    
+            const saldo = dados.saldo.toFixed(2);
+            const categorias = dados.categorias;
+    
+            // Se todas as categorias tiverem total_gasto = 0, exibir apenas o saldo
+            if (categorias.every(c => c.total_gasto === 0)) {
+                document.getElementById('financeChart').style.display = 'none';
+                document.querySelector('.chart-center').innerText = `R$${saldo}`;
+                return;
+            }
+    
+            // Obtém os valores das categorias
+            const labels = categorias.map(c => `${c.nome}: R$${c.total_gasto.toFixed(2)}`);
+            const valores = categorias.map(c => c.total_gasto);
+            const cores = categorias.map(c => c.cor);
+    
+            // Atualiza o valor central do gráfico
+            document.querySelector('.chart-center').innerText = `R$${saldo}`;
+    
+            // 🔥 Verifica se já existe um gráfico criado e destrói antes de criar um novo
+            const chartElement = document.getElementById('financeChart');
+            if (chartElement.chart) {
+                chartElement.chart.destroy();
+            }
+    
+            // Criando gráfico sem legenda lateral
+            const ctx = chartElement.getContext('2d');
+            chartElement.chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels, // 🔹 Remove os rótulos laterais
+                    datasets: [{
+                        data: valores,
+                        backgroundColor: cores
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false // 🔹 Remove a legenda lateral
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+    
+        } catch (error) {
+            console.error("❌ Erro ao carregar gráfico de pizza:", error);
+        }
+    }
+    
+    // 🔹 Chama a função ao carregar a página
+    document.addEventListener("DOMContentLoaded", carregarGraficoPizza);
+    

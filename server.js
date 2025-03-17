@@ -318,3 +318,60 @@ app.get('/categorias-despesas', (req, res) => {
         res.json(categoriasFinal);
     });
 });
+
+app.get('/dados-grafico', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const id_usuario = req.session.usuario.id;
+
+    // Lista de categorias padrão com cores
+    const categoriasPadrao = [
+        { nome: "Casa", cor: "#4CAF50" },
+        { nome: "Outros", cor: "#E53935" },
+        { nome: "Viagem", cor: "#1E88E5" },
+        { nome: "Lazer", cor: "#bba800" },
+        { nome: "Comida", cor: "#FF9800" },
+        { nome: "Saúde", cor: "#9C27B0" }
+    ];
+
+    // Consulta SQL para obter o saldo e os gastos por categoria
+    const sql = `
+        SELECT 
+            (SELECT COALESCE(SUM(valor), 0) FROM RECEITA WHERE id_usuario = ?) -
+            (SELECT COALESCE(SUM(valor), 0) FROM DESPESA WHERE id_usuario = ?) AS saldo,
+            COALESCE(SUM(D.valor), 0) AS total_gasto,
+            D.categoria AS nome
+        FROM DESPESA D
+        WHERE D.id_usuario = ?
+        GROUP BY D.categoria;
+    `;
+
+    db.query(sql, [id_usuario, id_usuario, id_usuario], (err, results) => {
+        if (err) {
+            console.error("❌ Erro ao buscar dados do gráfico:", err);
+            return res.status(500).json({ message: "Erro ao carregar dados do gráfico" });
+        }
+
+        // Captura o saldo total
+        const saldo = results.length > 0 ? results[0].saldo : 0;
+
+        // Criar um mapa das despesas reais por categoria
+        const categoriasMap = {};
+        results.forEach(row => {
+            if (row.nome) {
+                categoriasMap[row.nome] = row.total_gasto;
+            }
+        });
+
+        // Adicionar categorias padrão com 0 caso não existam despesas
+        const categoriasFinal = categoriasPadrao.map(cat => ({
+            nome: cat.nome,
+            total_gasto: categoriasMap[cat.nome] || 0, // Garante 0 caso não tenha despesas
+            cor: cat.cor
+        }));
+
+        res.json({ saldo, categorias: categoriasFinal });
+    });
+});

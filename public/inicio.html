@@ -219,8 +219,8 @@
 
         <div class="chart-container">
             <canvas id="financeChart"></canvas>
-            <div class="chart-center">R$3060</div>
-        </div>
+            <div class="chart-center">R$0</div>
+        </div>        
 
         <div class="categories" id="categorias-container">
             <!-- As categorias serão carregadas dinamicamente via JavaScript -->
@@ -234,15 +234,6 @@
 
     <script>
         function navigate(page) { window.location.href = page; }
-
-        new Chart(document.getElementById('financeChart').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Casa', 'Outros', 'Viagem', 'Lazer', 'Comida', 'Saúde'],
-                datasets: [{ data: [15, 24, 21, 21, 10, 7], backgroundColor: ['#4CAF50', '#E53935', '#1E88E5', '#FFEB3B', '#FF9800', '#9C27B0'] }]
-            },
-            options: { plugins: { legend: { display: false } }, cutout: '60%' }
-        });
     </script>
 </body>
 </html>
