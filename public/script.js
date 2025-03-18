@@ -2,29 +2,34 @@
 
     function customAlert(message, type = "info") {
         return new Promise((resolve) => {
-            // Remover alerta antigo, se existir
-            const oldAlert = document.getElementById("customAlert");
-            if (oldAlert) oldAlert.remove();
+            // Remove o overlay antigo, se existir
+            const oldOverlay = document.getElementById("customAlertOverlay");
+            if (oldOverlay) oldOverlay.remove();
     
-            // Criar container do alerta
+            // Cria o overlay que cobre toda a tela
+            let overlay = document.createElement("div");
+            overlay.id = "customAlertOverlay";
+            overlay.classList.add("custom-alert-overlay");
+    
+            // Cria a caixa de alerta centralizada dentro do overlay
             let alertBox = document.createElement("div");
-            alertBox.id = "customAlert";
             alertBox.classList.add("custom-alert", `custom-alert-${type}`);
             alertBox.innerHTML = `
                 <p>${message}</p>
                 <button id="alertOkButton">OK</button>
             `;
     
-            // Adicionar alerta na tela
-            document.body.appendChild(alertBox);
+            // Adiciona a caixa de alerta ao overlay e o overlay ao body
+            overlay.appendChild(alertBox);
+            document.body.appendChild(overlay);
     
-            // Evento para fechar alerta e continuar a execução
+            // Espera o clique no botão para fechar o alerta e continuar a execução
             document.getElementById("alertOkButton").addEventListener("click", () => {
-                alertBox.remove();
-                resolve(); // Retorna a execução do código após clicar em OK
+                overlay.remove();
+                resolve();
             });
         });
-    }    
+    }
     
     // Fechar o alerta e executar callback se necessário
     function closeCustomAlert() {
