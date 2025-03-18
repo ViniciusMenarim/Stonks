@@ -1,30 +1,37 @@
 /* Nome do arquivo: style.css */
 
-/* 🔥 Fundo escuro cobrindo toda a tela */
+/* 🔥 Fundo escuro cobrindo toda a tela (opcional) */
 .custom-alert-overlay {
-    position: fixed !important; /* Mantém a sobreposição fixa */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.75); /* Fundo escuro semi-transparente */
+    background: transparent; /* Removemos o fundo escuro para não cobrir toda a tela */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999 !important; /* 🔥 Garante que fique sobre tudo */
+    align-items: flex-start; /* Alerta fica no topo */
+    justify-content: center; /* Centraliza no eixo X */
+    z-index: 9999999 !important; /* 🔥 Mantém sobreposto */
+    pointer-events: none; /* Permite interação com outros elementos da página */
 }
 
-/* 🔥 Caixa de alerta */
+/* 🔥 Caixa de alerta fixa no topo */
 .custom-alert {
+    position: fixed;
+    top: 20px; /* Distância do topo */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
     background: #222;
     color: white;
-    padding: 20px;
+    padding: 15px 25px;
     border-radius: 10px;
     text-align: center;
-    width: 320px;
+    width: auto;
+    max-width: 400px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.3s ease-in-out;
-    z-index: 1000000 !important; /* 🔥 Garante que nada o sobreponha */
+    animation: slideDown 0.3s ease-in-out;
+    z-index: 10000000 !important; /* 🔥 Garante sobreposição */
+    pointer-events: auto; /* Permite clique no botão */
 }
 
 /* 🔥 Diferentes tipos de alertas */
@@ -33,28 +40,27 @@
 .custom-alert-warning { background-color: #f39c12; } /* Amarelo */
 .custom-alert-error { background-color: #e74c3c; } /* Vermelho */
 
-/* 🔥 Estilo do botão */
+/* 🔥 Botão */
 .custom-alert button {
-    margin-top: 15px;
-    padding: 10px 15px;
+    margin-top: 10px;
+    padding: 8px 12px;
     border: none;
-    background: #ff4c4c;
-    color: white;
+    background: white;
+    color: black;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
     transition: 0.3s;
-    width: 100%;
 }
 
 .custom-alert button:hover {
-    background: #e53935;
+    background: #ddd;
 }
 
 /* 🔥 Animação de entrada */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 /* Diferentes tipos de alertas */
