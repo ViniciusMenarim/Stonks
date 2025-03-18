@@ -1,5 +1,61 @@
 /* Nome do arquivo: style.css */
 
+/* Alerta customizado */
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    z-index: 9999;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    width: 300px;
+}
+
+/* Diferentes tipos de alertas */
+.custom-alert-info { background-color: #3498db; } /* Azul */
+.custom-alert-success { background-color: #2ecc71; } /* Verde */
+.custom-alert-warning { background-color: #f39c12; } /* Amarelo */
+.custom-alert-error { background-color: #e74c3c; } /* Vermelho */
+
+/* Botão */
+.custom-alert button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    background: #fff;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.custom-alert button:hover {
+    background: #ddd;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
 /* ====== ESTILIZAÇÃO GERAL ====== */
 body {
     display: flex;

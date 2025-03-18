@@ -1,5 +1,40 @@
     // Nome do arquivo: script.js
 
+    function customAlert(message, type = "info") {
+        return new Promise((resolve) => {
+            // Remover alerta antigo, se existir
+            const oldAlert = document.getElementById("customAlert");
+            if (oldAlert) oldAlert.remove();
+    
+            // Criar container do alerta
+            let alertBox = document.createElement("div");
+            alertBox.id = "customAlert";
+            alertBox.classList.add("custom-alert", `custom-alert-${type}`);
+            alertBox.innerHTML = `
+                <p>${message}</p>
+                <button id="alertOkButton">OK</button>
+            `;
+    
+            // Adicionar alerta na tela
+            document.body.appendChild(alertBox);
+    
+            // Evento para fechar alerta e continuar a execução
+            document.getElementById("alertOkButton").addEventListener("click", () => {
+                alertBox.remove();
+                resolve(); // Retorna a execução do código após clicar em OK
+            });
+        });
+    }    
+    
+    // Fechar o alerta e executar callback se necessário
+    function closeCustomAlert() {
+        const alertBox = document.getElementById("customAlert");
+        if (alertBox) {
+            alertBox.remove();
+            if (alertBox.callback) alertBox.callback();
+        }
+    }
+    
     async function criarNovaConta() {
         const nome = document.getElementById('nome').value.trim();
         const email = document.getElementById('email').value.trim();
@@ -8,12 +43,12 @@
         const data_criacao = new Date().toISOString().split('T')[0];
 
         if (!nome || !email || !senha || !confirmarSenha) {
-            alert("Preencha todos os campos!");
+           await customAlert("Preencha todos os campos!");
             return;
         }
 
         if (senha !== confirmarSenha) {
-            alert("As senhas não coincidem!");
+            await customAlert("As senhas não coincidem!");
             return;
         }
 
@@ -26,10 +61,10 @@
         const data = await resposta.json();
 
         if (resposta.ok) {
-            alert("Conta criada com sucesso!");
+            await customAlert("Conta criada com sucesso!");
             window.location.href = "entrar.html";
         } else {
-            alert(data.message || "Erro ao criar conta.");
+            await customAlert(data.message || "Erro ao criar conta.");
         }
     }
 
@@ -38,7 +73,7 @@
         const senha = document.getElementById('senha').value.trim();
 
         if (!email || !senha) {
-            alert("Por favor, preencha todos os campos!");
+            await customAlert("Por favor, preencha todos os campos!");
             return;
         }
 
@@ -53,10 +88,10 @@
         if (resposta.ok) {
             // Salvar sessão no LocalStorage
             localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-            alert("Login realizado com sucesso!");
+            await customAlert("Login realizado com sucesso!");
             window.location.href = "inicio.html";
         } else {
-            alert(data.message || "Erro ao fazer login.");
+            await customAlert(data.message || "Erro ao fazer login.");
         }
     }
 
@@ -73,7 +108,7 @@
         const id_usuario = 1; // Trocar pelo ID do usuário autenticado
 
         if (!descricao || !valor || !data_pagamento || !categoria) {
-            alert("Preencha todos os campos!");
+            await customAlert("Preencha todos os campos!");
             return;
         }
 
@@ -90,14 +125,14 @@
             console.log("Resposta do servidor:", data);
 
             if (resposta.ok) {
-                alert("Despesa adicionada com sucesso!");
+                await customAlert("Despesa adicionada com sucesso!");
                 window.location.href = "inicio.html";
             } else {
-                alert(data.message || "Erro ao adicionar despesa.");
+                await customAlert(data.message || "Erro ao adicionar despesa.");
             }
         } catch (error) {
             console.error("Erro ao conectar com o servidor:", error);
-            alert("Erro ao conectar com o servidor. Verifique a conexão.");
+            await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
     }
 
@@ -110,7 +145,7 @@
         const id_usuario = 1; // Substituir pelo ID do usuário autenticado
 
         if (!descricao || !valor || !data_recebimento || !categoria) {
-            alert("Preencha todos os campos!");
+            await customAlert("Preencha todos os campos!");
             return;
         }
 
@@ -127,14 +162,14 @@
             console.log("Resposta do servidor:", data);
 
             if (resposta.ok) {
-                alert("Receita adicionada com sucesso!");
+                await customAlert("Receita adicionada com sucesso!");
                 window.location.href = "inicio.html";
             } else {
-                alert(data.message || "Erro ao adicionar receita.");
+                await customAlert(data.message || "Erro ao adicionar receita.");
             }
         } catch (error) {
             console.error("Erro ao conectar com o servidor:", error);
-            alert("Erro ao conectar com o servidor. Verifique a conexão.");
+            await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
     }
 
@@ -148,7 +183,7 @@
         const id_usuario = 1; // Trocar pelo ID do usuário autenticado
 
         if (!titulo || !valor_meta || !valor_acumulado || !data_inicio || !data_fim) {
-            alert("Preencha todos os campos!");
+            await customAlert("Preencha todos os campos!");
             return;
         }
 
@@ -165,14 +200,14 @@
             console.log("Resposta do servidor:", data);
 
             if (resposta.ok) {
-                alert("Meta adicionada com sucesso!");
+                await customAlert("Meta adicionada com sucesso!");
                 window.location.href = "inicio.html";
             } else {
-                alert(data.message || "Erro ao adicionar meta.");
+                await customAlert(data.message || "Erro ao adicionar meta.");
             }
         } catch (error) {
             console.error("Erro ao conectar com o servidor:", error);
-            alert("Erro ao conectar com o servidor. Verifique a conexão.");
+            await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
     }
 
@@ -184,7 +219,7 @@
         const corpoTabela = document.getElementById('corpo-relatorio');
 
         if (!dataInicio || !dataFim) {
-            alert("Por favor, selecione um período válido.");
+            await customAlert("Por favor, selecione um período válido.");
             return;
         }
 
@@ -209,13 +244,13 @@
 
                 tabela.style.display = "table";
             } else {
-                alert("Nenhuma despesa encontrada no período selecionado.");
+                await customAlert("Nenhuma despesa encontrada no período selecionado.");
                 tabela.style.display = "none";
             }
 
         } catch (error) {
             console.error("Erro ao buscar relatório:", error);
-            alert("Erro ao conectar com o servidor.");
+            await customAlert("Erro ao conectar com o servidor.");
         }
     }
 
