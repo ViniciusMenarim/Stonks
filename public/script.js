@@ -104,6 +104,31 @@
         window.location.href = "entrar.html";
     }
 
+    async function savePassword() {
+        const novaSenha = document.getElementById('password').value.trim();
+    
+        if (novaSenha.length < 6) {
+            await customAlert("A senha deve ter pelo menos 6 caracteres.");
+            return;
+        }
+    
+        try {
+            const response = await fetch('http://localhost:3000/alterar-senha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ senha: novaSenha })
+            });
+    
+            const data = await response.json();
+            await customAlert(data.message);
+            
+            document.getElementById('password').value = ""; // Limpa o campo após salvar
+        } catch (error) {
+            console.error("Erro ao alterar senha:", error);
+            await customAlert("Erro ao alterar senha. Tente novamente.");
+        }
+    }    
+
     // ===================== SALVAR DESPESA =====================
     async function salvarDespesa() {
         const descricao = document.getElementById('descricao').value.trim();

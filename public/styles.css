@@ -6,7 +6,7 @@
     top: 20px; /* Distância do topo */
     left: 50%;
     transform: translateX(-50%); /* Centraliza horizontalmente */
-    background: #222;
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     padding: 15px 25px;
     border-radius: 10px;
@@ -18,12 +18,6 @@
     z-index: 10000000 !important; /* 🔥 Garante sobreposição */
     pointer-events: auto; /* Permite clique no botão */
 }
-
-/* 🔥 Diferentes tipos de alertas */
-.custom-alert-info { background-color: #3498db; } /* Azul */
-.custom-alert-success { background-color: #2ecc71; } /* Verde */
-.custom-alert-warning { background-color: #f39c12; } /* Amarelo */
-.custom-alert-error { background-color: #e74c3c; } /* Vermelho */
 
 /* 🔥 Botão */
 .custom-alert button {
