@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stonks - Gastos Gerais</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="pagina-inicio">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             fetch('http://localhost:3000/verificar-sessao')
@@ -24,31 +24,30 @@
                 });
         });
     </script>
-    
-    <div class="header">
-        <div class="user-info">
-            <button id="profile-btn" class="profile-btn" onclick="navigate('perfil.html')">Carregando...</button>
-        </div>
-        <h1>Stonks</h1>
-    </div>
-    
-    <div class="container">
-        <div class="side-buttons">
-            <button class="btn btn-green" onclick="navigate('receita.html')">Receita</button>
-            <button class="btn btn-red" onclick="navigate('despesa.html')">Despesa</button>
-            <button class="btn btn-blue" onclick="navigate('metas.html')">Metas</button>
-            <button class="btn btn-yellow" onclick="navigate('relatorio.html')">Relatório</button>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="financeChart"></canvas>
-            <div class="chart-center">R$0</div>
-        </div>        
-
-        <div class="categories" id="categorias-container">
+            <div class="header">
+                <div class="user-info">
+                    <button id="profile-btn" class="profile-btn" onclick="navigate('perfil.html')">Carregando...</button>
+                </div>
+                <h1>Stonks</h1>
             </div>
-    </div>
-    
+            
+            <div class="container">
+                <div class="side-buttons">
+                    <button class="btn btn-green" onclick="navigate('receita.html')">Receita</button>
+                    <button class="btn btn-red" onclick="navigate('despesa.html')">Despesa</button>
+                    <button class="btn btn-blue" onclick="navigate('metas.html')">Metas</button>
+                    <button class="btn btn-yellow" onclick="navigate('relatorio.html')">Relatório</button>
+                </div>
+        
+                <div class="chart-container">
+                    <canvas id="financeChart"></canvas>
+                    <div class="chart-center">R$0</div>
+                </div>        
+        
+                <div class="categories" id="categorias-container">
+                    </div>
+            </div>
+
     <script src="script.js"></script>
     <script>
         carregarUsuario(); // Chama a função ao carregar a página

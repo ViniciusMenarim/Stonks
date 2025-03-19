@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Despesa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="despesa.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="pagina-despesas">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             fetch('http://localhost:3000/verificar-sessao')
@@ -23,25 +23,24 @@
                 });
         });
     </script>
-    
-    <div class="container">
-        <h1>Adicionar Despesa</h1>
-        <div class="input-group">
-            <input type="text" id="descricao" placeholder="Nome da Despesa">
-            <input type="number" id="valor" placeholder="Valor">
-            <input type="date" id="data_despesa">
-            <select id="categoria">
-                <option value="Casa">Casa</option>
-                <option value="Lazer">Lazer</option>
-                <option value="Viagem">Viagem</option>
-                <option value="Comida">Comida</option>
-                <option value="Saúde">Saúde</option>
-                <option value="Outros">Outros</option>
-            </select>
+        <div class="container">
+            <h1>Adicionar Despesa</h1>
+            <div class="input-group">
+                <input type="text" id="descricao" placeholder="Nome da Despesa">
+                <input type="number" id="valor" placeholder="Valor">
+                <input type="date" id="data_despesa">
+                <select id="categoria">
+                    <option value="Casa">Casa</option>
+                    <option value="Lazer">Lazer</option>
+                    <option value="Viagem">Viagem</option>
+                    <option value="Comida">Comida</option>
+                    <option value="Saúde">Saúde</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+            <button onclick="salvarDespesa()">Salvar Despesa</button>
+            <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
         </div>
-        <button onclick="salvarDespesa()">Salvar Despesa</button>
-        <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
-    </div>
 
     <script>
         document.getElementById('data_despesa').value = new Date().toISOString().split('T')[0];
