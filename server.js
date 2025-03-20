@@ -437,24 +437,51 @@ app.get('/metas', (req, res) => {
     });
 });
 
-// 🔹 Rota para atualizar apenas os campos permitidos da meta
+app.get('/meta/:id', (req, res) => {
+    const id_meta = req.params.id;
+
+    const sql = `
+        SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
+        FROM meta_financeira 
+        WHERE id_meta = ?`;
+
+    db.query(sql, [id_meta], (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar meta:", err);
+            return res.status(500).json({ message: "Erro ao buscar meta." });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Meta não encontrada." });
+        }
+
+        res.json(results[0]); // Retorna os dados da meta
+    });
+});
+
 app.put('/meta/:id', (req, res) => {
     const id_meta = req.params.id;
     const { valor_meta, valor_acumulado, data_fim } = req.body;
 
     if (!valor_meta || !valor_acumulado || !data_fim) {
-        return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
+        return res.status(400).json({ message: "Preencha todos os campos obrigatórios." });
     }
 
-    const sql = `UPDATE META_FINANCEIRA 
-                 SET valor_meta = ?, valor_acumulado = ?, data_fim = ? 
-                 WHERE id_meta = ?`;
+    const sql = `
+        UPDATE meta_financeira 
+        SET valor_meta = ?, valor_acumulado = ?, data_fim = ? 
+        WHERE id_meta = ?`;
 
     db.query(sql, [valor_meta, valor_acumulado, data_fim, id_meta], (err, result) => {
         if (err) {
             console.error("Erro ao atualizar meta:", err);
-            return res.status(500).json({ message: "Erro ao atualizar meta." });
+            return res.status(500).json({ message: "Erro ao atualizar meta no banco de dados." });
         }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Meta não encontrada." });
+        }
+
         res.json({ message: "Meta atualizada com sucesso!" });
     });
 });

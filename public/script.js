@@ -486,7 +486,7 @@
         const data_fim = document.getElementById('data_fim').value;
     
         if (!valor_meta || !valor_acumulado || !data_fim) {
-            alert("Preencha todos os campos obrigatórios.");
+            await customAlert("Preencha todos os campos obrigatórios.", "warning");
             return;
         }
     
@@ -498,14 +498,42 @@
                 body: JSON.stringify({ valor_meta, valor_acumulado, data_fim })
             });
     
+            const resultado = await resposta.json();
+    
             if (!resposta.ok) {
-                throw new Error("Erro ao salvar meta.");
+                throw new Error(resultado.message || "Erro ao salvar meta.");
             }
     
-            alert("Meta atualizada com sucesso!");
+            await customAlert("Meta atualizada com sucesso!", "success");
             window.location.href = "gerenciar_metas.html";
         } catch (error) {
+            await customAlert("Erro ao atualizar meta.", "error");
             console.error("Erro ao atualizar meta:", error);
         }
-    }
+    }    
     
+    async function carregarMeta(id_meta) {
+        try {
+            const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            });
+    
+            if (!resposta.ok) {
+                throw new Error("Erro ao carregar meta.");
+            }
+    
+            const meta = await resposta.json();
+    
+            document.getElementById('id_meta').value = meta.id_meta;
+            document.getElementById('titulo').textContent = meta.titulo; 
+            document.getElementById('data_inicio').textContent = new Date(meta.data_inicio).toLocaleDateString('pt-BR');
+            document.getElementById('valor_meta').value = meta.valor_meta;
+            document.getElementById('valor_acumulado').value = meta.valor_acumulado;
+            document.getElementById('data_fim').value = meta.data_fim.split('T')[0]; 
+        } catch (error) {
+            await customAlert("Erro ao carregar meta.", "error");
+            console.error("Erro ao carregar meta:", error);
+        }
+    }    
