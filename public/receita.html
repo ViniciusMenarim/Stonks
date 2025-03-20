@@ -8,6 +8,25 @@
     <title>Adicionar Receita</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Aplica peso 600 em todos os textos da página */
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Mantém o título do topo com peso 400 */
+        h1 {
+            font-weight: 400;
+        }
+        /* Aumenta toda a página sem alterar o layout */
+         .container {
+          transform: scale(1.4); /* Aumenta em 10% */
+          transform-origin: center; /* Mantém o centro fixo */
+        }
+
+    </style>
 </head>
 <body class="pagina-receitas">
     <script>
@@ -34,6 +53,8 @@
 
             <label for="valor_receita">Valor</label>
             <input type="number" id="valor_receita" placeholder="Digite o valor da Receita">
+
+            <label for="categoria">Categoria</label>
 
             <select id="categoria">
                 <option value="Casa">Casa</option>

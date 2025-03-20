@@ -8,6 +8,26 @@
     <title>Perfil</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Aumenta toda a página sem alterar o layout */
+         .container {
+         transform: scale(1.5); /* Aumenta em 10% */
+         transform-origin: center; /* Mantém o centro fixo */
+}
+
+
+        /* Aplica peso 600 em todos os textos da página */
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Mantém o título do topo com peso 400 */
+        h1 {
+            font-weight: 400;
+        }
+    </style>
 </head>
 <body class="pagina-perfil">
     <script>
@@ -29,13 +49,20 @@
     <div class="container">
         <h1>Perfil</h1>
         <div class="input-group">
+            <label for="nome">Nome</label>
             <input type="text" id="nome" placeholder="Nome" disabled>
+    
+            <label for="email">E-mail</label>
             <input type="email" id="email" placeholder="E-mail" disabled>
+    
+            <label for="password">Nova Senha</label>
             <input type="password" id="password" placeholder="Digite nova senha">
         </div>
+        
         <button onclick="savePassword()">Salvar Alterações</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

@@ -198,15 +198,17 @@ button:hover {
 }
 
 .pagina-despesas .container {
-    max-width: 500px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 800px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform-origin: center;
     outline: 2px solid white;
 }
 
@@ -260,15 +262,17 @@ button:hover {
 }
 
 .pagina-metas .container {
-    max-width: 500px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 800px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.10); /* Mantém o efeito de aumento */
+    transform-origin: center;
     outline: 2px solid white;
 }
 
@@ -328,6 +332,7 @@ button:hover {
     color: white;
     text-align: center;
     font-family: 'Poppins', sans-serif;
+    font-weight: 600;
     padding: 20px;
     height: 100vh;
     margin: 0;
@@ -337,15 +342,17 @@ button:hover {
 }
 
 .pagina-receitas .container {
-    max-width: 500px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 800px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform-origin: center;
     outline: 2px solid white;
 }
 
@@ -491,15 +498,17 @@ button:hover {
 }
 
 .pagina-perfil .container {
-    max-width: 500px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 800px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform-origin: center;
     outline: 2px solid white;
 }
 
