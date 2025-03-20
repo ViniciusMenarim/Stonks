@@ -479,3 +479,33 @@
         }
     }
     
+    async function salvarEdicaoMeta() {
+        const id_meta = document.getElementById('id_meta').value;
+        const valor_meta = document.getElementById('valor_meta').value.trim();
+        const valor_acumulado = document.getElementById('valor_acumulado').value.trim();
+        const data_fim = document.getElementById('data_fim').value;
+    
+        if (!valor_meta || !valor_acumulado || !data_fim) {
+            alert("Preencha todos os campos obrigatórios.");
+            return;
+        }
+    
+        try {
+            const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ valor_meta, valor_acumulado, data_fim })
+            });
+    
+            if (!resposta.ok) {
+                throw new Error("Erro ao salvar meta.");
+            }
+    
+            alert("Meta atualizada com sucesso!");
+            window.location.href = "gerenciar_metas.html";
+        } catch (error) {
+            console.error("Erro ao atualizar meta:", error);
+        }
+    }
+    
