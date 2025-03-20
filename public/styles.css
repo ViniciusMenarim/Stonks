@@ -198,7 +198,7 @@ button:hover {
 }
 
 .pagina-despesas .container {
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -337,7 +337,7 @@ button:hover {
 }
 
 .pagina-receitas .container {
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -387,7 +387,7 @@ button:hover {
 }
 
 .pagina-receitas button:hover {
-    background: #43a047; /* Tom de verde mais escuro no hover */
+    background: #45a049; /* Tom de verde mais escuro no hover */
 }
 
 .pagina-receitas .back-btn {
@@ -491,7 +491,7 @@ button:hover {
 }
 
 .pagina-perfil .container {
-    max-width: 450px;
+    max-width: 500px;
     width: 100%;
     background: rgba(255, 255, 255, 0.15);
     padding: 25px;
@@ -593,3 +593,92 @@ button:hover {
     width: 100%;
     justify-content: center;
 }
+
+.pagina-relatorio_gerado body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .pagina-relatorio_gerado .container {
+            width: 90%;
+            max-width: 500px;
+            background: #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            outline: 2px solid white;
+        }
+
+        .pagina-relatorio_gerado h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #cdc306;
+        }
+
+        .pagina-relatorio_gerado .table-container {
+            background: #444;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        .pagina-relatorio_gerado table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .pagina-relatorio_gerado thead {
+            background: #555;
+        }
+
+        .pagina-relatorio_gerado th, .pagina-relatorio_gerado td {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+        }
+
+        .pagina-relatorio_gerado tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pagina-relatorio_gerado th {
+            color: white;
+        }
+
+        .pagina-relatorio_gerado .categoria-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .pagina-relatorio_gerado .back-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            background: #cdc306;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pagina-relatorio_gerado .back-btn:hover {
+            background: #e5b635;
+        }

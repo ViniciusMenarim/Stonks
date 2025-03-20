@@ -439,3 +439,43 @@
         window.location.href = `relatorio_gerado.html?${urlParams.toString()}`;
     }
     
+    async function carregarMetas() {
+        try {
+            const resposta = await fetch('http://localhost:3000/metas', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include' // Garante que os cookies de sessão sejam enviados
+            });
+    
+            if (!resposta.ok) {
+                throw new Error("Erro ao carregar metas.");
+            }
+    
+            const metas = await resposta.json();
+            
+            const tabela = document.getElementById('tabela-metas');
+            const corpoTabela = document.getElementById('corpo-metas');
+            corpoTabela.innerHTML = "";
+    
+            if (metas.length === 0) {
+                corpoTabela.innerHTML = "<tr><td colspan='6'>Nenhuma meta cadastrada.</td></tr>";
+                return;
+            }
+    
+            metas.forEach(meta => {
+                let row = `<tr>
+                    <td>${meta.titulo}</td>
+                    <td>R$ ${meta.valor_meta.toFixed(2)}</td>
+                    <td>R$ ${meta.valor_acumulado.toFixed(2)}</td>
+                    <td>${meta.data_inicio}</td>
+                    <td>${meta.data_fim}</td>
+                    <td><button onclick="editarMeta(${meta.id_meta})">Editar</button></td>
+                </tr>`;
+                corpoTabela.innerHTML += row;
+            });
+    
+        } catch (error) {
+            console.error("Erro ao carregar metas:", error);
+        }
+    }
+    

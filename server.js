@@ -414,3 +414,25 @@ app.get('/relatorio-gerado', (req, res) => {
         });
     });
 });
+
+app.get('/metas', (req, res) => {
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const id_usuario = req.session.usuario.id;
+
+    const sql = `
+        SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
+        FROM META_FINANCEIRA 
+        WHERE id_usuario = ?`;
+
+    db.query(sql, [id_usuario], (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar metas:", err);
+            return res.status(500).json({ message: "Erro ao buscar metas financeiras." });
+        }
+
+        res.json(results);
+    });
+});
