@@ -29,16 +29,27 @@
     <div class="container">
         <h1>Adicionar Receita</h1>
         <div class="input-group">
-            <input type="text" id="descricao" placeholder="Nome da Receita">
-            <input type="number" id="valor" placeholder="Valor">
-            <input type="date" id="data_receita">
+            <label for="titulo">Nome da Receita</label>
+            <input type="text" id="titulo" placeholder="Digite o título">
+
+            <label for="valor_receita">Valor</label>
+            <input type="number" id="valor_receita" placeholder="Digite o valor da Receita">
+
             <select id="categoria">
-                <option value="Salário">Salário</option>
-                <option value="Freelance">Freelance</option>
-                <option value="Investimentos">Investimentos</option>
+                <option value="Casa">Casa</option>
+                <option value="Lazer">Lazer</option>
+                <option value="Viagem">Viagem</option>
+                <option value="Comida">Comida</option>
+                <option value="Saúde">Saúde</option>
                 <option value="Outros">Outros</option>
             </select>
+
+            <label for="data_inicio">Data</label>
+            <input type="date" id="data_inicio">
+
+            
         </div>
+        
         <button onclick="salvarReceita()">Salvar Receita</button>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>

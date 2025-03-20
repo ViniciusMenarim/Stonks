@@ -28,9 +28,12 @@
         <div class="container">
             <h1>Adicionar Despesa</h1>
             <div class="input-group">
-                <input type="text" id="descricao" placeholder="Nome da Despesa">
-                <input type="number" id="valor" placeholder="Valor">
-                <input type="date" id="data_despesa">
+                <label for="titulo">Nome da Despesa</label>
+                <input type="text" id="titulo" placeholder="Digite a Despesa">
+    
+                <label for="valor_despesa">Valor</label>
+                <input type="number" id="valor_despesa" placeholder="Digite o valor da despesa">
+    
                 <select id="categoria">
                     <option value="Casa">Casa</option>
                     <option value="Lazer">Lazer</option>
@@ -39,7 +42,13 @@
                     <option value="Saúde">Saúde</option>
                     <option value="Outros">Outros</option>
                 </select>
+    
+                <label for="data_inicio">Data</label>
+                <input type="date" id="data_inicio">
+    
+                
             </div>
+            
             <button onclick="salvarDespesa()">Salvar Despesa</button>
             <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
         </div>

@@ -90,7 +90,6 @@ h1, h2 {
     font-size: 28px;
     text-transform: uppercase;
     color: #ffffff;
-    text-shadow: 0px 3px 6px rgba(255, 255, 255, 0.2);
 }
 
 
@@ -371,11 +370,7 @@ button:hover {
     text-align: center;
 }
 
-.pagina-receitas input, .pagina-receitas textarea {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    outline: none;
-}
+
 
 .pagina-receitas textarea {
     resize: none;
@@ -388,6 +383,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
+    
 }
 
 .pagina-receitas button:hover {
