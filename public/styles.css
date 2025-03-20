@@ -17,6 +17,7 @@
     animation: slideDown 0.3s ease-in-out;
     z-index: 10000000 !important; /* 🔥 Garante sobreposição */
     pointer-events: auto; /* Permite clique no botão */
+    outline: 2px solid white;
 }
 
 /* 🔥 Botão */
@@ -75,6 +76,7 @@ body {
     backdrop-filter: blur(15px);
     transition: all 0.3s ease-in-out;
     position: relative;
+    outline: 2px solid white;
 }
 
 .login-container:hover, .profile-container:hover {
@@ -206,6 +208,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    outline: 2px solid white;
 }
 
 .pagina-despesas h1 {
@@ -267,6 +270,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    outline: 2px solid white;
 }
 
 .pagina-metas h1 {
@@ -343,6 +347,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    outline: 2px solid white;
 }
 
 .pagina-receitas h1 {
@@ -417,6 +422,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    outline: 2px solid white;
 }
 
 .pagina-relatorios h1 {
@@ -498,6 +504,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    outline: 2px solid white;
 }
 
 .pagina-perfil h1 {

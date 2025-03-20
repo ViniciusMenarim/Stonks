@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório Gerado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -96,6 +98,21 @@
     </style>
 </head>
 <body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://localhost:3000/verificar-sessao')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.autenticado) {
+                        window.location.href = "entrar.html";
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao verificar sessão:", error);
+                    window.location.href = "entrar.html";
+                });
+        });
+    </script>
     <div class="container">
         <h1>Despesas e Receitas</h1>
         <div class="table-container">
