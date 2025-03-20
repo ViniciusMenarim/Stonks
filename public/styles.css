@@ -77,11 +77,9 @@ body {
     transition: all 0.3s ease-in-out;
     position: relative;
     outline: 2px solid white;
+    transform: scale(1.15);
 }
 
-.login-container:hover, .profile-container:hover {
-    transform: translateY(-5px);
-}
 
 h1, h2 {
     margin-bottom: 20px;
@@ -207,9 +205,10 @@ button:hover {
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform: scale(1.0); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
+    
 }
 
 .pagina-despesas h1 {
@@ -271,7 +270,7 @@ button:hover {
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.10); /* Mantém o efeito de aumento */
+    transform: scale(1.0); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
 }
@@ -322,6 +321,7 @@ button:hover {
     background: #0625c2;
 }
 
+
 .pagina-metas .back-btn {
     background: gray;
     margin-top: 10px;
@@ -351,9 +351,10 @@ button:hover {
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform: scale(1.0); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
+    
 }
 
 .pagina-receitas h1 {
@@ -416,16 +417,19 @@ button:hover {
 }
 
 .pagina-relatorios .container {
-    max-width: 500px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 800px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.13); /* Mantém o efeito de aumento */
+    transform-origin: center;
     outline: 2px solid white;
+    margin-bottom: 10%;
 }
 
 .pagina-relatorios h1 {
