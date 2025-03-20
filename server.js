@@ -436,3 +436,25 @@ app.get('/metas', (req, res) => {
         res.json(results);
     });
 });
+
+// 🔹 Rota para atualizar apenas os campos permitidos da meta
+app.put('/meta/:id', (req, res) => {
+    const id_meta = req.params.id;
+    const { valor_meta, valor_acumulado, data_fim } = req.body;
+
+    if (!valor_meta || !valor_acumulado || !data_fim) {
+        return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
+    }
+
+    const sql = `UPDATE META_FINANCEIRA 
+                 SET valor_meta = ?, valor_acumulado = ?, data_fim = ? 
+                 WHERE id_meta = ?`;
+
+    db.query(sql, [valor_meta, valor_acumulado, data_fim, id_meta], (err, result) => {
+        if (err) {
+            console.error("Erro ao atualizar meta:", err);
+            return res.status(500).json({ message: "Erro ao atualizar meta." });
+        }
+        res.json({ message: "Meta atualizada com sucesso!" });
+    });
+});

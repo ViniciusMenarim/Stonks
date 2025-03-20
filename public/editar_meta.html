@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Meta Financeira</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pagina-metas">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const id_meta = params.get("id");
+            if (!id_meta) {
+                alert("Meta não encontrada.");
+                window.location.href = "gerenciar_metas.html";
+                return;
+            }
+            carregarMeta(id_meta);
+        });
+
+        async function carregarMeta(id_meta) {
+            try {
+                const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao carregar meta.");
+                }
+
+                const meta = await resposta.json();
+                document.getElementById('id_meta').value = meta.id_meta;
+                document.getElementById('titulo').textContent = meta.titulo;
+                document.getElementById('data_inicio').textContent = meta.data_inicio.split('T')[0];
+                document.getElementById('valor_meta').value = meta.valor_meta;
+                document.getElementById('valor_acumulado').value = meta.valor_acumulado;
+                document.getElementById('data_fim').value = meta.data_fim.split('T')[0];
+            } catch (error) {
+                console.error("Erro ao carregar meta:", error);
+            }
+        }
+
+        async function salvarEdicaoMeta() {
+            const id_meta = document.getElementById('id_meta').value;
+            const valor_meta = document.getElementById('valor_meta').value.trim();
+            const valor_acumulado = document.getElementById('valor_acumulado').value.trim();
+            const data_fim = document.getElementById('data_fim').value;
+
+            if (!valor_meta || !valor_acumulado || !data_fim) {
+                alert("Preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            try {
+                const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ valor_meta, valor_acumulado, data_fim })
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao salvar meta.");
+                }
+
+                alert("Meta atualizada com sucesso!");
+                window.location.href = "gerenciar_metas.html";
+            } catch (error) {
+                console.error("Erro ao atualizar meta:", error);
+            }
+        }
+    </script>
+    
+    <div class="container">
+        <h1>Editar Meta Financeira</h1>
+        <input type="hidden" id="id_meta">
+        <div class="input-group">
+            <label>Título:</label>
+            <p id="titulo"></p>
+
+            <label>Data de Início:</label>
+            <p id="data_inicio"></p>
+
+            <label for="valor_meta">Valor Meta</label>
+            <input type="number" id="valor_meta" placeholder="Digite o novo valor da meta">
+
+            <label for="valor_acumulado">Valor Acumulado</label>
+            <input type="number" id="valor_acumulado" placeholder="Digite o valor acumulado">
+
+            <label for="data_fim">Data Final</label>
+            <input type="date" id="data_fim">
+        </div>
+        
+        <button onclick="salvarEdicaoMeta()">Salvar Alterações</button>
+        <button class="back-btn" onclick="window.location.href='gerenciar_metas.html'">Cancelar</button>
+    </div>
+</body>
+</html>
