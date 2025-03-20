@@ -381,11 +381,29 @@
                 options: {
                     plugins: {
                         legend: {
-                            display: false // 🔹 Remove a legenda lateral
+                            display: false // Remove a legenda lateral
+                        },
+                        tooltip: {
+                            displayColors: false, // Remove o quadrado colorido
+                            backgroundColor: 'rgba(0, 0, 0, 0.95)', // Fundo preto semi-transparente
+                            titleFont: { size: 15, weight: 'bold' }, // Título do tooltip maior e em negrito
+                            bodyFont: { size: 20 }, // Tamanho do texto do corpo
+                            bodyColor: '#fff', // Cor do texto branca
+                            borderWidth: 2, // Borda do tooltip
+                            borderColor: '#fff', // Cor da borda do tooltip
+                            cornerRadius: 6, // Cantos arredondados
+                            padding: 10, // Espaçamento interno
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const index = tooltipItem.dataIndex;
+                                    return `${categorias[index].nome}: R$${categorias[index].total_gasto.toFixed(2)}`;
+                                },
+                                title: () => '' // Remove o título extra do tooltip
+                            }
                         }
                     },
                     cutout: '60%'
-                }
+                }                
             });
     
         } catch (error) {
