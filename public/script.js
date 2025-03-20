@@ -396,3 +396,28 @@
     // 🔹 Chama a função ao carregar a página
     document.addEventListener("DOMContentLoaded", carregarGraficoPizza);
     
+    async function gerarRelatorio() {
+        const dataInicio = document.getElementById('data_inicio').value;
+        const dataFim = document.getElementById('data_fim').value;
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    
+        if (!dataInicio || !dataFim) {
+            await customAlert("Por favor, selecione um período válido.");
+            return;
+        }
+    
+        if (!usuarioLogado || !usuarioLogado.id) {
+            await customAlert("Usuário não autenticado.");
+            return;
+        }
+    
+        // Redireciona para a página `relatorio_gerado.html` passando os parâmetros na URL
+        const urlParams = new URLSearchParams({
+            id_usuario: usuarioLogado.id,
+            data_inicio: dataInicio,
+            data_fim: dataFim
+        });
+    
+        window.location.href = `relatorio_gerado.html?${urlParams.toString()}`;
+    }
+    

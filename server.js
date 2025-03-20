@@ -375,3 +375,42 @@ app.get('/dados-grafico', (req, res) => {
         res.json({ saldo, categorias: categoriasFinal });
     });
 });
+
+app.get('/relatorio-gerado', (req, res) => {
+    const { id_usuario, data_inicio, data_fim } = req.query;
+
+    if (!id_usuario || !data_inicio || !data_fim) {
+        return res.status(400).json({ message: "Forneça um intervalo de datas válido e um usuário." });
+    }
+
+    const sqlDespesas = `
+        SELECT id_despesa AS id, descricao, valor, data_pagamento AS data, categoria, 'Despesa' AS movimentacao
+        FROM DESPESA
+        WHERE id_usuario = ? AND data_pagamento BETWEEN ? AND ?
+    `;
+
+    const sqlReceitas = `
+        SELECT id_receita AS id, descricao, valor, data_recebimento AS data, categoria, 'Receita' AS movimentacao
+        FROM RECEITA
+        WHERE id_usuario = ? AND data_recebimento BETWEEN ? AND ?
+    `;
+
+    db.query(sqlDespesas, [id_usuario, data_inicio, data_fim], (err, despesas) => {
+        if (err) {
+            console.error("Erro ao buscar despesas:", err);
+            return res.status(500).json({ message: "Erro ao buscar despesas." });
+        }
+
+        db.query(sqlReceitas, [id_usuario, data_inicio, data_fim], (err, receitas) => {
+            if (err) {
+                console.error("Erro ao buscar receitas:", err);
+                return res.status(500).json({ message: "Erro ao buscar receitas." });
+            }
+
+            // Junta os resultados e ordena por data
+            const resultados = [...despesas, ...receitas].sort((a, b) => new Date(a.data) - new Date(b.data));
+
+            res.json(resultados);
+        });
+    });
+});
