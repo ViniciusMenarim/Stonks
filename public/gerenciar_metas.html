@@ -8,23 +8,25 @@
     <title>Gerenciar Metas Financeiras</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script> <!-- 🔹 Garante que os scripts carreguem depois do HTML -->
 </head>
 <body class="pagina-metas">
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('http://localhost:3000/verificar-sessao', { credentials: 'include' })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.autenticado) {
-                        window.location.href = "entrar.html"; // Redireciona para login se não estiver autenticado
-                    } else {
-                        carregarMetas();
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao verificar sessão:", error);
-                    window.location.href = "entrar.html";
-                });
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const resposta = await fetch('http://localhost:3000/verificar-sessao', { credentials: 'include' });
+                const data = await resposta.json();
+
+                if (!data.autenticado) {
+                    window.location.href = "entrar.html"; // 🔹 Redireciona para login se não estiver autenticado
+                    return;
+                }
+
+                await carregarMetas();
+            } catch (error) {
+                console.error("❌ Erro ao verificar sessão:", error);
+                window.location.href = "entrar.html";
+            }
         });
 
         async function carregarMetas() {
@@ -32,7 +34,7 @@
                 const resposta = await fetch('http://localhost:3000/metas', {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include' // Garante que os cookies de sessão sejam enviados
+                    credentials: 'include'
                 });
 
                 if (!resposta.ok) {
@@ -41,7 +43,6 @@
 
                 const metas = await resposta.json();
                 
-                const tabela = document.getElementById('tabela-metas');
                 const corpoTabela = document.getElementById('corpo-metas');
                 corpoTabela.innerHTML = "";
 
@@ -55,15 +56,16 @@
                         <td>${meta.titulo}</td>
                         <td>R$ ${parseFloat(meta.valor_meta).toFixed(2)}</td>
                         <td>R$ ${parseFloat(meta.valor_acumulado).toFixed(2)}</td>
-                        <td>${new Date(meta.data_inicio).toLocaleDateString()}</td>
-                        <td>${new Date(meta.data_fim).toLocaleDateString()}</td>
+                        <td>${new Date(meta.data_inicio).toLocaleDateString('pt-BR')}</td>
+                        <td>${new Date(meta.data_fim).toLocaleDateString('pt-BR')}</td>
                         <td><button onclick="editarMeta(${meta.id_meta})">Editar</button></td>
                     </tr>`;
                     corpoTabela.innerHTML += row;
                 });
 
             } catch (error) {
-                console.error("Erro ao carregar metas:", error);
+                console.error("❌ Erro ao carregar metas:", error);
+                await customAlert("Erro ao carregar metas.", "error");
             }
         }
 

@@ -479,6 +479,35 @@
         }
     }
     
+    async function carregarMeta(id_meta) {
+        try {
+            const resposta = await fetch(`http://localhost:3000/metas/detalhes/${id_meta}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            });
+    
+            if (!resposta.ok) {
+                const erroMsg = await resposta.json();
+                throw new Error(erroMsg.message || "Erro desconhecido.");
+            }
+    
+            const meta = await resposta.json();
+    
+            document.getElementById('id_meta').value = meta.id_meta;
+            document.getElementById('titulo').textContent = meta.titulo;
+            document.getElementById('data_inicio').textContent = new Date(meta.data_inicio).toLocaleDateString('pt-BR');
+            document.getElementById('valor_meta').value = parseFloat(meta.valor_meta).toFixed(2);
+            document.getElementById('valor_acumulado').value = parseFloat(meta.valor_acumulado).toFixed(2);
+            document.getElementById('data_fim').value = meta.data_fim.split('T')[0];
+    
+        } catch (error) {
+            console.error("❌ Erro ao carregar meta:", error);
+            await customAlert(`Erro ao carregar meta: ${error.message}`, "error");
+            window.location.href = "gerenciar_metas.html";
+        }
+    }
+    
     async function salvarEdicaoMeta() {
         const id_meta = document.getElementById('id_meta').value;
         const valor_meta = document.getElementById('valor_meta').value.trim();
@@ -491,49 +520,24 @@
         }
     
         try {
-            const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
+            const resposta = await fetch(`http://localhost:3000/metas/atualizar/${id_meta}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({ valor_meta, valor_acumulado, data_fim })
             });
     
-            const resultado = await resposta.json();
-    
             if (!resposta.ok) {
-                throw new Error(resultado.message || "Erro ao salvar meta.");
+                const erroMsg = await resposta.json();
+                throw new Error(erroMsg.message || "Erro ao salvar meta.");
             }
     
             await customAlert("Meta atualizada com sucesso!", "success");
             window.location.href = "gerenciar_metas.html";
+    
         } catch (error) {
+            console.error("❌ Erro ao atualizar meta:", error);
             await customAlert("Erro ao atualizar meta.", "error");
-            console.error("Erro ao atualizar meta:", error);
         }
-    }    
+    }
     
-    async function carregarMeta(id_meta) {
-        try {
-            const resposta = await fetch(`http://localhost:3000/meta/${id_meta}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include'
-            });
-    
-            if (!resposta.ok) {
-                throw new Error("Erro ao carregar meta.");
-            }
-    
-            const meta = await resposta.json();
-    
-            document.getElementById('id_meta').value = meta.id_meta;
-            document.getElementById('titulo').textContent = meta.titulo; 
-            document.getElementById('data_inicio').textContent = new Date(meta.data_inicio).toLocaleDateString('pt-BR');
-            document.getElementById('valor_meta').value = meta.valor_meta;
-            document.getElementById('valor_acumulado').value = meta.valor_acumulado;
-            document.getElementById('data_fim').value = meta.data_fim.split('T')[0]; 
-        } catch (error) {
-            await customAlert("Erro ao carregar meta.", "error");
-            console.error("Erro ao carregar meta:", error);
-        }
-    }    

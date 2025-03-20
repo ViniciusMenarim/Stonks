@@ -415,67 +415,61 @@ app.get('/relatorio-gerado', (req, res) => {
     });
 });
 
+// ========================== LISTAR TODAS AS METAS ==========================
 app.get('/metas', (req, res) => {
-    if (!req.session.usuario) {
-        return res.status(401).json({ message: "Usuário não autenticado." });
-    }
+    const sql = `SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim FROM META_FINANCEIRA`;
 
-    const id_usuario = req.session.usuario.id;
-
-    const sql = `
-        SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
-        FROM META_FINANCEIRA 
-        WHERE id_usuario = ?`;
-
-    db.query(sql, [id_usuario], (err, results) => {
+    db.query(sql, (err, results) => {
         if (err) {
-            console.error("Erro ao buscar metas:", err);
-            return res.status(500).json({ message: "Erro ao buscar metas financeiras." });
+            console.error("❌ Erro ao buscar metas:", err);
+            return res.status(500).json({ message: "Erro ao buscar metas no banco de dados." });
         }
 
-        res.json(results);
+        res.json(results); // Retorna todas as metas cadastradas
     });
 });
 
-app.get('/meta/:id', (req, res) => {
-    const id_meta = req.params.id;
 
-    const sql = `
-        SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
-        FROM meta_financeira 
-        WHERE id_meta = ?`;
+app.get('/metas/detalhes/:id', (req, res) => {
+    const id_meta = parseInt(req.params.id, 10);
+
+    if (isNaN(id_meta)) {
+        return res.status(400).json({ message: "ID inválido." });
+    }
+
+    const sql = `SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
+                 FROM meta_financeira WHERE id_meta = ?`;
 
     db.query(sql, [id_meta], (err, results) => {
         if (err) {
-            console.error("Erro ao buscar meta:", err);
-            return res.status(500).json({ message: "Erro ao buscar meta." });
+            console.error("❌ Erro ao buscar meta:", err);
+            return res.status(500).json({ message: "Erro interno ao buscar meta." });
         }
 
         if (results.length === 0) {
             return res.status(404).json({ message: "Meta não encontrada." });
         }
 
-        res.json(results[0]); // Retorna os dados da meta
+        res.json(results[0]); // Retorna a meta encontrada
     });
 });
 
-app.put('/meta/:id', (req, res) => {
-    const id_meta = req.params.id;
+app.put('/metas/atualizar/:id', (req, res) => {
+    const id_meta = parseInt(req.params.id, 10);
     const { valor_meta, valor_acumulado, data_fim } = req.body;
 
     if (!valor_meta || !valor_acumulado || !data_fim) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios." });
     }
 
-    const sql = `
-        UPDATE meta_financeira 
-        SET valor_meta = ?, valor_acumulado = ?, data_fim = ? 
-        WHERE id_meta = ?`;
+    const sql = `UPDATE meta_financeira 
+                 SET valor_meta = ?, valor_acumulado = ?, data_fim = ? 
+                 WHERE id_meta = ?`;
 
     db.query(sql, [valor_meta, valor_acumulado, data_fim, id_meta], (err, result) => {
         if (err) {
-            console.error("Erro ao atualizar meta:", err);
-            return res.status(500).json({ message: "Erro ao atualizar meta no banco de dados." });
+            console.error("❌ Erro ao atualizar meta:", err);
+            return res.status(500).json({ message: "Erro ao atualizar meta." });
         }
 
         if (result.affectedRows === 0) {
@@ -485,3 +479,4 @@ app.put('/meta/:id', (req, res) => {
         res.json({ message: "Meta atualizada com sucesso!" });
     });
 });
+
