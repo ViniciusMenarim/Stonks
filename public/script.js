@@ -447,7 +447,7 @@ function customAlert(message, type = "info") {
                                 `;
                         
                                 tooltipEl.style.backgroundColor = corCategoria;
-                                tooltipEl.style.border = "3px solid white"; 
+                                tooltipEl.style.border = "2px solid white"; 
                         
                                 const chartElement = context.chart.canvas;
                                 const chartRect = chartElement.getBoundingClientRect();
