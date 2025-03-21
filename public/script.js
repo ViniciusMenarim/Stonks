@@ -363,7 +363,7 @@ function customAlert(message, type = "info") {
     
             document.querySelector('.chart-center').innerHTML = `
                 <span style="display: block; font-size: 0.8em;">Saldo:</span>
-                <span style="font-size: 1.2em;">${formatarSaldo(saldo)}</span>
+                <span style="font-size: 1.0em;">${formatarSaldo(saldo)}</span>
             `;
     
             const chartElement = document.getElementById('financeChart');
