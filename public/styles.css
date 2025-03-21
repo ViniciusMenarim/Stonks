@@ -639,7 +639,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    width: 100%;
+    width: 90%;
     max-width: 650px;
 }
 
