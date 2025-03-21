@@ -1,5 +1,3 @@
-// Nome do arquivo: server.js
-
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -11,26 +9,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 📌 Servir arquivos estáticos da pasta "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 📌 Direcionar para a página de login ao acessar "/"
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'entrar.html'));
 });
 
-// Conexão com o banco de dados MySQL
 const db = mysql.createPool({
     host: 'localhost',
-    user: 'root',      // Usuário do MySQL
-    password: 'root',  // Senha do MySQL
+    user: 'root',     
+    password: 'root',  
     database: 'stonks_db',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
-// Teste de conexão
 db.getConnection((err, connection) => {
     if (err) {
         console.error('Erro ao conectar ao MySQL:', err);
@@ -41,10 +35,10 @@ db.getConnection((err, connection) => {
 });
 
 app.use(session({
-    secret: 'stonks_secret',  // Escolha uma chave secreta segura
+    secret: 'stonks_secret',  
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Se estiver rodando em HTTPS, mude para true
+    cookie: { secure: false } 
 }));
 
 app.get('/verificar-sessao', (req, res) => {
@@ -55,7 +49,6 @@ app.get('/verificar-sessao', (req, res) => {
     }
 });
 
-// ========================== REGISTRO DE USUÁRIOS ==========================
 app.post('/registrar', async (req, res) => {
     const { nome, email, senha, data_criacao } = req.body;
 
@@ -77,8 +70,6 @@ app.post('/registrar', async (req, res) => {
     });
 });
 
-// ========================== LOGIN DE USUÁRIOS ==========================
-// 📌 Rota para login (corrigida para armazenar sessão corretamente)
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
 
@@ -97,7 +88,6 @@ app.post('/login', (req, res) => {
             return res.status(401).json({ message: "Senha incorreta" });
         }
 
-        // 🔹 Armazena o usuário na sessão
         req.session.usuario = {
             id: usuario.id_usuario,
             nome: usuario.nome,
@@ -108,11 +98,15 @@ app.post('/login', (req, res) => {
     });
 });
 
-// ========================== REGISTRAR DESPESA ==========================
 app.post('/despesa', (req, res) => {
-    const { id_usuario, descricao, valor, data_pagamento, categoria } = req.body;
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+    
+    const id_usuario = req.session.usuario.id;
+    const { descricao, valor, data_pagamento, categoria } = req.body;
 
-    if (!id_usuario || !descricao || !valor || !data_pagamento || !categoria) {
+    if (!descricao || !valor || !data_pagamento || !categoria) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
     }
 
@@ -127,11 +121,15 @@ app.post('/despesa', (req, res) => {
     });
 });
 
-// ========================== REGISTRAR RECEITA ==========================
 app.post('/receita', (req, res) => {
-    const { id_usuario, descricao, valor, data_recebimento, categoria } = req.body;
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+    
+    const id_usuario = req.session.usuario.id;
+    const { descricao, valor, data_recebimento, categoria } = req.body;
 
-    if (!id_usuario || !descricao || !valor || !data_recebimento || !categoria) {
+    if (!descricao || !valor || !data_recebimento || !categoria) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
     }
 
@@ -146,11 +144,15 @@ app.post('/receita', (req, res) => {
     });
 });
 
-// ========================== REGISTRAR META ==========================
 app.post('/meta', (req, res) => {
-    const { id_usuario, titulo, valor_meta, valor_acumulado, data_inicio, data_fim } = req.body;
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
 
-    if (!id_usuario || !titulo || !valor_meta || !valor_acumulado || !data_inicio || !data_fim) {
+    const id_usuario = req.session.usuario.id;
+    const { titulo, valor_meta, valor_acumulado, data_inicio, data_fim } = req.body;
+
+    if (!titulo || !valor_meta || !valor_acumulado || !data_inicio || !data_fim) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
     }
 
@@ -165,7 +167,6 @@ app.post('/meta', (req, res) => {
     });
 });
 
-// ========================== GERAR RELATÓRIO DE GASTOS ==========================
 app.get('/relatorio', (req, res) => {
     const { data_inicio, data_fim } = req.query;
 
@@ -206,7 +207,7 @@ app.get('/perfil', (req, res) => {
             return res.status(404).json({ message: "Usuário não encontrado." });
         }
 
-        res.json(results[0]); // Retorna apenas nome e email, sem a senha
+        res.json(results[0]); 
     });
 });
 
@@ -246,7 +247,7 @@ app.get('/usuario-logado', (req, res) => {
 
     db.query(sql, [req.session.usuario.id], (err, results) => {
         if (err) {
-            console.error("❌ Erro ao buscar dados do usuário:", err);
+            console.error("Erro ao buscar dados do usuário:", err);
             return res.status(500).json({ message: "Erro ao buscar usuário." });
         }
 
@@ -262,8 +263,6 @@ app.get('/usuario-logado', (req, res) => {
     });
 });
 
-
-// ========================== OUVIR REQUISIÇÕES NA PORTA 3000 ==========================
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando em: http://localhost:${PORT}`);
@@ -276,7 +275,6 @@ app.get('/categorias-despesas', (req, res) => {
 
     const id_usuario = req.session.usuario.id;
 
-    // Lista de categorias padrão para garantir que todas sejam exibidas
     const categoriasPadrao = [
         { nome: "Casa", cor: "#4CAF50" },
         { nome: "Outros", cor: "#E53935" },
@@ -286,7 +284,6 @@ app.get('/categorias-despesas', (req, res) => {
         { nome: "Saúde", cor: "#9C27B0" }
     ];
 
-    // Consulta despesas reais do usuário
     const sql = `
         SELECT categoria AS nome, 
                ROUND(SUM(valor) * 100 / (SELECT SUM(valor) FROM DESPESA WHERE id_usuario = ?), 2) AS percentual
@@ -297,17 +294,15 @@ app.get('/categorias-despesas', (req, res) => {
 
     db.query(sql, [id_usuario, id_usuario], (err, results) => {
         if (err) {
-            console.error("❌ Erro ao buscar categorias:", err);
+            console.error("Erro ao buscar categorias:", err);
             return res.status(500).json({ message: "Erro ao carregar categorias" });
         }
 
-        // Cria um mapa das categorias existentes com valores reais
         const categoriasMap = {};
         results.forEach(row => {
             categoriasMap[row.nome] = { percentual: row.percentual };
         });
 
-        // Adiciona todas as categorias padrões e, se não existirem despesas, coloca 0%
         const categoriasFinal = categoriasPadrao.map(cat => ({
             nome: cat.nome,
             percentual: categoriasMap[cat.nome] ? categoriasMap[cat.nome].percentual : 0,
@@ -325,7 +320,6 @@ app.get('/dados-grafico', (req, res) => {
 
     const id_usuario = req.session.usuario.id;
 
-    // Lista de categorias padrão com cores
     const categoriasPadrao = [
         { nome: "Casa", cor: "#4CAF50" },
         { nome: "Outros", cor: "#E53935" },
@@ -335,7 +329,6 @@ app.get('/dados-grafico', (req, res) => {
         { nome: "Saúde", cor: "#9C27B0" }
     ];
 
-    // Consulta SQL para obter o saldo e os gastos por categoria
     const sql = `
         SELECT 
             (SELECT COALESCE(SUM(valor), 0) FROM RECEITA WHERE id_usuario = ?) -
@@ -349,14 +342,12 @@ app.get('/dados-grafico', (req, res) => {
 
     db.query(sql, [id_usuario, id_usuario, id_usuario], (err, results) => {
         if (err) {
-            console.error("❌ Erro ao buscar dados do gráfico:", err);
+            console.error("Erro ao buscar dados do gráfico:", err);
             return res.status(500).json({ message: "Erro ao carregar dados do gráfico" });
         }
 
-        // Captura o saldo total
         const saldo = results.length > 0 ? results[0].saldo : 0;
 
-        // Criar um mapa das despesas reais por categoria
         const categoriasMap = {};
         results.forEach(row => {
             if (row.nome) {
@@ -364,10 +355,9 @@ app.get('/dados-grafico', (req, res) => {
             }
         });
 
-        // Adicionar categorias padrão com 0 caso não existam despesas
         const categoriasFinal = categoriasPadrao.map(cat => ({
             nome: cat.nome,
-            total_gasto: categoriasMap[cat.nome] || 0, // Garante 0 caso não tenha despesas
+            total_gasto: categoriasMap[cat.nome] || 0,
             cor: cat.cor
         }));
 
@@ -410,7 +400,6 @@ app.get('/relatorio-gerado', (req, res) => {
                 return res.status(500).json({ message: "Erro ao buscar receitas." });
             }
 
-            // Junta os resultados e ordena por data
             const resultados = [...despesas, ...receitas].sort((a, b) => new Date(a.data) - new Date(b.data));
 
             res.json(resultados);
@@ -418,25 +407,29 @@ app.get('/relatorio-gerado', (req, res) => {
     });
 });
 
-
-// ========================== LISTAR TODAS AS METAS ==========================
 app.get('/metas', (req, res) => {
-    const sql = 
-        `SELECT id_meta, titulo, valor_meta, valor_acumulado, 
+    if (!req.session.usuario) {
+        return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
+    const id_usuario = req.session.usuario.id;
+
+    const sql = `
+        SELECT id_meta, titulo, valor_meta, valor_acumulado, 
                DATE_FORMAT(data_inicio, '%Y-%m-%d') AS data_inicio, 
                DATE_FORMAT(data_fim, '%Y-%m-%d') AS data_fim
-        FROM meta_financeira `;
+        FROM meta_financeira 
+        WHERE id_usuario = ?`;
 
-    db.query(sql, (err, results) => {
+    db.query(sql, [id_usuario], (err, results) => {
         if (err) {
-            console.error("❌ Erro ao buscar metas:", err);
+            console.error("Erro ao buscar metas:", err);
             return res.status(500).json({ message: "Erro ao buscar metas no banco de dados." });
         }
 
-        res.json(results); // Retorna todas as metas cadastradas
+        res.json(results);
     });
 });
-
 
 app.get('/metas/detalhes/:id', (req, res) => {
     const id_meta = parseInt(req.params.id, 10);
@@ -454,7 +447,7 @@ app.get('/metas/detalhes/:id', (req, res) => {
 
     db.query(sql, [id_meta], (err, results) => {
         if (err) {
-            console.error("❌ Erro ao buscar meta:", err);
+            console.error("Erro ao buscar meta:", err);
             return res.status(500).json({ message: "Erro interno ao buscar meta." });
         }
 
@@ -462,7 +455,7 @@ app.get('/metas/detalhes/:id', (req, res) => {
             return res.status(404).json({ message: "Meta não encontrada." });
         }
 
-        res.json(results[0]); // Retorna a meta com as datas formatadas corretamente
+        res.json(results[0]);
     });
 });
 
@@ -480,7 +473,7 @@ app.put('/metas/atualizar/:id', (req, res) => {
 
     db.query(sql, [valor_meta, valor_acumulado, data_fim, id_meta], (err, result) => {
         if (err) {
-            console.error("❌ Erro ao atualizar meta:", err);
+            console.error("Erro ao atualizar meta:", err);
             return res.status(500).json({ message: "Erro ao atualizar meta." });
         }
 
@@ -492,3 +485,25 @@ app.put('/metas/atualizar/:id', (req, res) => {
     });
 });
 
+app.delete('/metas/excluir/:id', (req, res) => {
+    const id_meta = parseInt(req.params.id, 10);
+
+    if (isNaN(id_meta)) {
+        return res.status(400).json({ message: "ID inválido." });
+    }
+
+    const sql = "DELETE FROM META_FINANCEIRA WHERE id_meta = ?";
+
+    db.query(sql, [id_meta], (err, result) => {
+        if (err) {
+            console.error("Erro ao excluir meta:", err);
+            return res.status(500).json({ message: "Erro ao excluir meta." });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Meta não encontrada." });
+        }
+
+        res.json({ message: "Meta excluída com sucesso!" });
+    });
+});

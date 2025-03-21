@@ -18,12 +18,11 @@
                     window.location.href = "entrar.html";
                 }
             } catch (error) {
-                console.error("❌ Erro ao verificar sessão:", error);
+                console.error("Erro ao verificar sessão:", error);
                 window.location.href = "entrar.html";
             }
         });
 
-        // ✅ Função para formatar o valor corretamente
         function formatarValor(valor) {
             let valorFormatado = parseFloat(valor);
             return valorFormatado % 1 === 0 ? `R$ ${valorFormatado.toFixed(0)}` : `R$ ${valorFormatado.toFixed(2)}`;
@@ -36,7 +35,7 @@
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
             if (!usuarioLogado || !data_inicio || !data_fim) {
-                alert("Erro ao carregar os dados do relatório.");
+                customAlert("Erro ao carregar os dados do relatório.");
                 return;
             }
 
@@ -52,7 +51,6 @@
                         let prefixo = d.movimentacao === "Receita" ? "" : "";
                         let movimentacaoTipo = d.movimentacao === "Receita" ? "Receita" : "Despesa";
                         
-                        // ✅ Corrigir exibição da data sem hora
                         let dataFormatada = d.data ? d.data.split("T")[0].split("-").reverse().join("/") : "Data inválida";
 
                         let row = `
@@ -69,8 +67,8 @@
                     corpoTabela.innerHTML = "<tr><td colspan='5'>Nenhum dado encontrado para este período.</td></tr>";
                 }
             } catch (error) {
-                console.error("❌ Erro ao buscar relatório:", error);
-                alert("Erro ao conectar com o servidor.");
+                console.error("Erro ao buscar relatório:", error);
+                customAlert("Erro ao conectar com o servidor.");
             }
         });
     </script>
@@ -93,5 +91,6 @@
         </div>             
         <button class="back-btn" onclick="window.history.back()">Voltar</button>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

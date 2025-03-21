@@ -10,7 +10,6 @@
 </head>
 
 <style>
-   /* 🔹 Ajuste do container para ter o mesmo estilo */
 .container {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -22,7 +21,6 @@
     overflow: hidden;
 }
 
-/* 🔹 Estilo da tabela igual ao relatorio_gerado.html */
 .table-container {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -55,13 +53,12 @@ th {
     color: white;
 }
 
-/* 🔹 Botão Editar com mesmo estilo */
 .editar-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px; /* Largura ajustada */
-    height: 35px; /* Altura ajustada */
+    width: 80px; 
+    height: 35px; 
     background: #007bff;
     color: white;
     border: none;
@@ -73,10 +70,9 @@ th {
 
 .editar-btn:hover {
     background: #0056b3;
-    transform: scale(1.05); /* Efeito de leve aumento ao passar o mouse */
+    transform: scale(1.05); 
 }
 
-/* 🔹 Botão Voltar para manter o mesmo estilo */
 .back-btn {
     width: 100%;
     margin-top: 15px;
@@ -105,7 +101,7 @@ th {
                     window.location.href = "entrar.html";
                 }
             } catch (error) {
-                console.error("❌ Erro ao verificar sessão:", error);
+                console.error("Erro ao verificar sessão:", error);
                 window.location.href = "entrar.html";
             }
         });
@@ -132,54 +128,59 @@ th {
 
     <script>
         document.addEventListener("DOMContentLoaded", async function () {
-            try {
-                const resposta = await fetch('http://localhost:3000/metas', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include'
-                });
+    try {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioLogado || !usuarioLogado.id) {
+            window.location.href = "entrar.html";
+            return;
+        }
 
-                if (!resposta.ok) {
-                    throw new Error("Erro ao carregar metas.");
-                }
-
-                const metas = await resposta.json();
-                const corpoTabela = document.getElementById('corpo-metas');
-                corpoTabela.innerHTML = "";
-
-                if (metas.length > 0) {
-                    metas.forEach(meta => {
-                        // ✅ Formatar valores corretamente (sem casas decimais se for inteiro)
-                        let formatarValor = (valor) => valor % 1 === 0 ? `R$ ${valor.toFixed(0)}` : `R$ ${valor.toFixed(2)}`;
-
-                        // ✅ Formatar data corretamente (sem a hora)
-                        let dataFimFormatada = meta.data_fim.includes("T") 
-                            ? meta.data_fim.split("T")[0].split("-").reverse().join("/")
-                            : meta.data_fim.split("-").reverse().join("/");
-
-                        let row = `
-                            <tr>
-                                <td>${meta.titulo}</td>
-                                <td>${formatarValor(meta.valor_meta)}</td>
-                                <td>${formatarValor(meta.valor_acumulado)}</td>
-                                <td>${dataFimFormatada}</td>
-                                <td><button class="editar-btn" onclick="editarMeta(${meta.id_meta})">Editar</button></td>
-                            </tr>`;
-                        corpoTabela.innerHTML += row;
-                    });
-                } else {
-                    corpoTabela.innerHTML = "<tr><td colspan='5'>Nenhuma meta cadastrada.</td></tr>";
-                }
-
-            } catch (error) {
-                console.error("❌ Erro ao carregar metas:", error);
-                alert("Erro ao conectar com o servidor.");
-            }
+        const resposta = await fetch('http://localhost:3000/metas', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
         });
 
-        function editarMeta(id) {
-            window.location.href = `editar_meta.html?id=${id}`;
+        if (!resposta.ok) {
+            throw new Error("Erro ao carregar metas.");
         }
+
+        const metas = await resposta.json();
+        const corpoTabela = document.getElementById('corpo-metas');
+        corpoTabela.innerHTML = "";
+
+        if (metas.length > 0) {
+            metas.forEach(meta => {
+                let formatarValor = (valor) => valor % 1 === 0 ? `R$ ${valor.toFixed(0)}` : `R$ ${valor.toFixed(2)}`;
+
+                let dataFimFormatada = meta.data_fim.includes("T") 
+                    ? meta.data_fim.split("T")[0].split("-").reverse().join("/")
+                    : meta.data_fim.split("-").reverse().join("/");
+
+                let row = `
+                    <tr>
+                        <td>${meta.titulo}</td>
+                        <td>${formatarValor(meta.valor_meta)}</td>
+                        <td>${formatarValor(meta.valor_acumulado)}</td>
+                        <td>${dataFimFormatada}</td>
+                        <td><button class="editar-btn" onclick="editarMeta(${meta.id_meta})">Editar</button></td>
+                    </tr>`;
+                corpoTabela.innerHTML += row;
+            });
+        } else {
+            corpoTabela.innerHTML = "<tr><td colspan='5'>Nenhuma meta cadastrada.</td></tr>";
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar metas:", error);
+        customAlert("Erro ao conectar com o servidor.");
+    }
+});
+
+function editarMeta(id) {
+    window.location.href = `editar_meta.html?id=${id}`;
+}
     </script>
+    <script src="script.js"></script>
 </body>
 </html>

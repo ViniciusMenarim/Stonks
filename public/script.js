@@ -1,17 +1,12 @@
-    // Nome do arquivo: script.js
-
-    function customAlert(message, type = "info") {
+function customAlert(message, type = "info") {
         return new Promise((resolve) => {
-            // Remove qualquer alerta anterior
             let oldAlert = document.getElementById("customAlertOverlay");
             if (oldAlert) oldAlert.remove();
     
-            // Criar o container de sobreposição
             let overlay = document.createElement("div");
             overlay.id = "customAlertOverlay";
             overlay.classList.add("custom-alert-overlay");
     
-            // Criar a caixa do alerta
             let alertBox = document.createElement("div");
             alertBox.classList.add("custom-alert", `custom-alert-${type}`);
             alertBox.innerHTML = `
@@ -19,11 +14,9 @@
                 <button id="alertOkButton">OK</button>
             `;
     
-            // Adicionar alerta na tela
             overlay.appendChild(alertBox);
             document.body.appendChild(overlay);
     
-            // Aplicar estilos diretamente ao botão para deixá-lo igual ao da segunda imagem
             let alertButton = alertBox.querySelector("#alertOkButton");
             alertButton.style.background = "white";
             alertButton.style.color = "black";
@@ -42,15 +35,13 @@
                 alertButton.style.background = "white";
             });
     
-            // Evento para fechar alerta e continuar a execução
             document.getElementById("alertOkButton").addEventListener("click", () => {
                 overlay.remove();
-                resolve(); // Continua a execução após clicar no botão
+                resolve(); 
             });
         });
     }    
     
-    // Fechar o alerta e executar callback se necessário
     function closeCustomAlert() {
         const alertBox = document.getElementById("customAlert");
         if (alertBox) {
@@ -110,7 +101,6 @@
         const data = await resposta.json();
 
         if (resposta.ok) {
-            // Salvar sessão no LocalStorage
             localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
             await customAlert("Login realizado com sucesso!");
             window.location.href = "inicio.html";
@@ -141,27 +131,30 @@
             const data = await response.json();
             await customAlert(data.message);
             
-            document.getElementById('password').value = ""; // Limpa o campo após salvar
+            document.getElementById('password').value = ""; 
         } catch (error) {
             console.error("Erro ao alterar senha:", error);
             await customAlert("Erro ao alterar senha. Tente novamente.");
         }
     }    
 
-    // ===================== SALVAR DESPESA =====================
     async function salvarDespesa() {
         const descricao = document.getElementById('titulo').value.trim();
         const valor = document.getElementById('valor_despesa').value.trim();
-        const data_pagamento = document.getElementById('data_inicio').value; // Corrigido
+        const data_pagamento = document.getElementById('data_inicio').value;
         const categoria = document.getElementById('categoria').value;
-        const id_usuario = 1; // Trocar pelo ID do usuário autenticado
+    
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioLogado || !usuarioLogado.id) {
+            await customAlert("Usuário não autenticado.", "error");
+            return;
+        }
+        const id_usuario = usuarioLogado.id; 
     
         if (!descricao || !valor || !data_pagamento || !categoria) {
             await customAlert("Preencha todos os campos!");
             return;
         }
-    
-        console.log("✅ Enviando requisição para salvar despesa...");
     
         try {
             const resposta = await fetch('http://localhost:3000/despesa', {
@@ -170,10 +163,7 @@
                 body: JSON.stringify({ id_usuario, descricao, valor, data_pagamento, categoria })
             });
     
-            console.log("📩 Resposta recebida:", resposta);
-    
             const data = await resposta.json();
-            console.log("📜 Dados do servidor:", data);
     
             if (resposta.ok) {
                 await customAlert("Despesa adicionada com sucesso!");
@@ -182,25 +172,28 @@
                 await customAlert(data.message || "Erro ao adicionar despesa.");
             }
         } catch (error) {
-            console.error("❌ Erro ao conectar com o servidor:", error);
+            console.error("Erro ao conectar com o servidor:", error);
             await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
-    }    
-
-    // ===================== SALVAR RECEITA =====================
+    }
+    
     async function salvarReceita() {
         const descricao = document.getElementById('titulo').value.trim();
         const valor = document.getElementById('valor_receita').value.trim();
-        const data_recebimento = document.getElementById('data_inicio').value; // Corrigido
+        const data_recebimento = document.getElementById('data_inicio').value;
         const categoria = document.getElementById('categoria').value;
-        const id_usuario = 1; // Trocar pelo ID do usuário autenticado
+    
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioLogado || !usuarioLogado.id) {
+            await customAlert("Usuário não autenticado.", "error");
+            return;
+        }
+        const id_usuario = usuarioLogado.id;
     
         if (!descricao || !valor || !data_recebimento || !categoria) {
             await customAlert("Preencha todos os campos!");
             return;
         }
-    
-        console.log("✅ Enviando requisição para salvar receita...");
     
         try {
             const resposta = await fetch('http://localhost:3000/receita', {
@@ -209,10 +202,7 @@
                 body: JSON.stringify({ id_usuario, descricao, valor, data_recebimento, categoria })
             });
     
-            console.log("📩 Resposta recebida:", resposta);
-    
             const data = await resposta.json();
-            console.log("📜 Dados do servidor:", data);
     
             if (resposta.ok) {
                 await customAlert("Receita adicionada com sucesso!");
@@ -221,37 +211,39 @@
                 await customAlert(data.message || "Erro ao adicionar receita.");
             }
         } catch (error) {
-            console.error("❌ Erro ao conectar com o servidor:", error);
+            console.error("Erro ao conectar com o servidor:", error);
             await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
     }    
 
-    // ===================== SALVAR META =====================
     async function salvarMeta() {
         const titulo = document.getElementById('titulo').value.trim();
         const valor_meta = document.getElementById('valor_meta').value.trim();
         const valor_acumulado = document.getElementById('valor_acumulado').value.trim();
         const data_inicio = document.getElementById('data_inicio').value;
         const data_fim = document.getElementById('data_fim').value;
-        const id_usuario = 1; // Trocar pelo ID do usuário autenticado
-
+    
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioLogado || !usuarioLogado.id) {
+            await customAlert("Usuário não autenticado.", "error");
+            return;
+        }
+        const id_usuario = usuarioLogado.id; 
+    
         if (!titulo || !valor_meta || !valor_acumulado || !data_inicio || !data_fim) {
             await customAlert("Preencha todos os campos!");
             return;
         }
-
-        console.log("Enviando requisição para salvar meta...");
-
+    
         try {
             const resposta = await fetch('http://localhost:3000/meta', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_usuario, titulo, valor_meta, valor_acumulado, data_inicio, data_fim })
             });
-
+    
             const data = await resposta.json();
-            console.log("Resposta do servidor:", data);
-
+    
             if (resposta.ok) {
                 await customAlert("Meta adicionada com sucesso!");
                 window.location.href = "inicio.html";
@@ -262,9 +254,8 @@
             console.error("Erro ao conectar com o servidor:", error);
             await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
-    }
+    }    
 
-    // ===================== GERAR RELATÓRIO =====================
     async function gerarRelatorio() {
         const dataInicio = document.getElementById('data_inicio').value;
         const dataFim = document.getElementById('data_fim').value;
@@ -322,27 +313,24 @@
         }
     }
 
-    // Chamada para carregar o nome do usuário ao carregar a página
     document.addEventListener("DOMContentLoaded", carregarUsuario);
 
     async function carregarCategorias() {
         try {
-            // 🔹 Faz a requisição para obter as categorias do usuário
             const resposta = await fetch('http://localhost:3000/categorias-despesas');
             const categorias = await resposta.json();
     
-            console.log("✅ Categorias carregadas:", categorias);
+            console.log("Categorias carregadas:", categorias);
     
             const container = document.getElementById('categorias-container');
-            container.innerHTML = ""; // Limpa antes de adicionar novos elementos
+            container.innerHTML = "";
     
             if (categorias.length === 0) {
-                console.warn("⚠️ Nenhuma categoria encontrada.");
+                console.warn("Nenhuma categoria encontrada.");
                 container.innerHTML = "<p style='color: white; text-align: center;'>Nenhuma categoria registrada.</p>";
                 return;
             }
     
-            // 🔹 Renderiza cada categoria no frontend, mesmo que o percentual seja 0%
             categorias.forEach(categoria => {
                 const div = document.createElement('div');
                 div.classList.add('category');
@@ -352,11 +340,10 @@
             });
     
         } catch (error) {
-            console.error("❌ Erro ao buscar categorias:", error);
+            console.error("Erro ao buscar categorias:", error);
         }
     }
     
-    // 🔹 Chama a função ao carregar a página
     document.addEventListener("DOMContentLoaded", carregarCategorias);
     
     async function carregarGraficoPizza() {
@@ -364,38 +351,33 @@
             const resposta = await fetch('http://localhost:3000/dados-grafico');
             const dados = await resposta.json();
     
-            console.log("✅ Dados do gráfico carregados:", dados);
+            console.log("Dados do gráfico carregados:", dados);
     
             const saldo = dados.saldo.toFixed(2);
             const categorias = dados.categorias;
     
-            // Se todas as categorias tiverem total_gasto = 0, exibir apenas o saldo
             if (categorias.every(c => c.total_gasto === 0)) {
                 document.getElementById('financeChart').style.display = 'none';
                 document.querySelector('.chart-center').innerText = `R$${saldo}`;
                 return;
             }
     
-            // Obtém os valores das categorias
             const labels = categorias.map(c => `${c.nome}: R$${c.total_gasto.toFixed(2)}`);
             const valores = categorias.map(c => c.total_gasto);
             const cores = categorias.map(c => c.cor);
     
-            // Atualiza o valor central do gráfico
             document.querySelector('.chart-center').innerText = `R$${saldo}`;
     
-            // 🔥 Verifica se já existe um gráfico criado e destrói antes de criar um novo
             const chartElement = document.getElementById('financeChart');
             if (chartElement.chart) {
                 chartElement.chart.destroy();
             }
     
-            // Criando gráfico sem legenda lateral
             const ctx = chartElement.getContext('2d');
             chartElement.chart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: labels, // 🔹 Remove os rótulos laterais
+                    labels: labels, 
                     datasets: [{
                         data: valores,
                         backgroundColor: cores
@@ -404,24 +386,24 @@
                 options: {
                     plugins: {
                         legend: {
-                            display: false // Remove a legenda lateral
+                            display: false 
                         },
                         tooltip: {
-                            displayColors: false, // Remove o quadrado colorido
-                            backgroundColor: 'rgba(0, 0, 0, 0.95)', // Fundo preto semi-transparente
-                            titleFont: { size: 15, weight: 'bold' }, // Título do tooltip maior e em negrito
-                            bodyFont: { size: 20 }, // Tamanho do texto do corpo
-                            bodyColor: '#fff', // Cor do texto branca
-                            borderWidth: 2, // Borda do tooltip
-                            borderColor: '#fff', // Cor da borda do tooltip
-                            cornerRadius: 6, // Cantos arredondados
-                            padding: 10, // Espaçamento interno
+                            displayColors: false, 
+                            backgroundColor: 'rgba(0, 0, 0, 0.95)', 
+                            titleFont: { size: 15, weight: 'bold' }, 
+                            bodyFont: { size: 20 },
+                            bodyColor: '#fff', 
+                            borderWidth: 2,
+                            borderColor: '#fff', 
+                            cornerRadius: 6, 
+                            padding: 10, 
                             callbacks: {
                                 label: function(tooltipItem) {
                                     const index = tooltipItem.dataIndex;
                                     return `${categorias[index].nome}: R$${categorias[index].total_gasto.toFixed(2)}`;
                                 },
-                                title: () => '' // Remove o título extra do tooltip
+                                title: () => ''
                             }
                         }
                     },
@@ -430,11 +412,10 @@
             });
     
         } catch (error) {
-            console.error("❌ Erro ao carregar gráfico de pizza:", error);
+            console.error("Erro ao carregar gráfico de pizza:", error);
         }
     }
     
-    // 🔹 Chama a função ao carregar a página
     document.addEventListener("DOMContentLoaded", carregarGraficoPizza);
     
     async function gerarRelatorio() {
@@ -452,7 +433,6 @@
             return;
         }
     
-        // Redireciona para a página `relatorio_gerado.html` passando os parâmetros na URL
         const urlParams = new URLSearchParams({
             id_usuario: usuarioLogado.id,
             data_inicio: dataInicio,
@@ -522,7 +502,7 @@
             document.getElementById('data_fim').value = meta.data_fim.split('T')[0];
     
         } catch (error) {
-            console.error("❌ Erro ao carregar meta:", error);
+            console.error("Erro ao carregar meta:", error);
             await customAlert(`Erro ao carregar meta: ${error.message}`, "error");
             window.location.href = "gerenciar_metas.html";
         }
@@ -530,11 +510,11 @@
     
     async function salvarEdicaoMeta() {
         const id_meta = document.getElementById('id_meta').value;
-        const valor_meta = document.getElementById('valor_meta').value.trim();
-        const valor_acumulado = document.getElementById('valor_acumulado').value.trim();
+        const valor_meta = parseFloat(document.getElementById('valor_meta').value.trim());
+        const valor_acumulado = parseFloat(document.getElementById('valor_acumulado').value.trim());
         const data_fim = document.getElementById('data_fim').value;
     
-        if (!valor_meta || !valor_acumulado || !data_fim) {
+        if (isNaN(valor_meta) || isNaN(valor_acumulado) || !data_fim) {
             await customAlert("Preencha todos os campos obrigatórios.", "warning");
             return;
         }
@@ -552,12 +532,23 @@
                 throw new Error(erroMsg.message || "Erro ao salvar meta.");
             }
     
-            await customAlert("Meta atualizada com sucesso!", "success");
+            if (valor_acumulado === valor_meta) {
+                await customAlert("Parabéns! Você alcançou a sua meta financeira!", "success");
+    
+                await fetch(`http://localhost:3000/metas/excluir/${id_meta}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                });
+    
+            } else {
+                await customAlert("Meta atualizada com sucesso!", "success");
+            }
+    
             window.location.href = "gerenciar_metas.html";
     
         } catch (error) {
-            console.error("❌ Erro ao atualizar meta:", error);
+            console.error("Erro ao atualizar meta:", error);
             await customAlert("Erro ao atualizar meta.", "error");
         }
-    }
-    
+    }    
