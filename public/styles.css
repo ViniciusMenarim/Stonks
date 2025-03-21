@@ -128,7 +128,7 @@ input::placeholder {
 
 /* Estilização dos botões */
 button {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     background: linear-gradient(90deg, #0056b3, #007bff);
     border: none;
@@ -165,7 +165,7 @@ button:hover {
 
 /* Estilização do botão Criar Conta */
 .create-account {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     background: none;
     color: white;
