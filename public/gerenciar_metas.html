@@ -1,5 +1,3 @@
-<!--Nome do arquivo: gerenciar_metas.html-->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,27 +6,94 @@
     <title>Gerenciar Metas Financeiras</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script> <!-- 🔹 Garante que os scripts carreguem depois do HTML -->
+    <script src="script.js" defer></script>
+</head>
 
-    <style>
-        .back-btn {
-    width: 180px; /* Altere conforme desejar */
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #28a745; /* Verde bonito */
+<style>
+   /* 🔹 Ajuste do container para ter o mesmo estilo */
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    overflow: hidden;
+}
+
+/* 🔹 Estilo da tabela igual ao relatorio_gerado.html */
+.table-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background: #444;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 2px solid #ffffff;
+}
+
+td:last-child {
+    text-align: center;
+}
+
+th {
+    color: white;
+}
+
+/* 🔹 Botão Editar com mesmo estilo */
+.editar-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px; /* Largura ajustada */
+    height: 35px; /* Altura ajustada */
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.editar-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05); /* Efeito de leve aumento ao passar o mouse */
+}
+
+/* 🔹 Botão Voltar para manter o mesmo estilo */
+.back-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #007bff;    
     color: white;
     border: none;
     border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+    transition: 0.3s;
+}
 
-  .back-btn:hover {
-    background-color: #1e7e34;
-  }
-
-    </style>
-</head>
+.back-btn:hover {
+    background: #0056b3;
+}
+</style>
 <body class="pagina-metas">
     <script>
         document.addEventListener("DOMContentLoaded", async function () {
@@ -37,18 +102,36 @@
                 const data = await resposta.json();
 
                 if (!data.autenticado) {
-                    window.location.href = "entrar.html"; // 🔹 Redireciona para login se não estiver autenticado
-                    return;
+                    window.location.href = "entrar.html";
                 }
-
-                await carregarMetas();
             } catch (error) {
                 console.error("❌ Erro ao verificar sessão:", error);
                 window.location.href = "entrar.html";
             }
         });
+    </script>
 
-        async function carregarMetas() {
+<div class="container">
+    <h1>Gerenciar Metas Financeiras</h1>
+    <div class="table-container">
+        <table id="tabela-metas">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Meta</th>
+                    <th>Acumulado</th>
+                    <th>Data Final</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-metas"></tbody>
+        </table>
+    </div>
+    <button class="back-btn" onclick="window.location.href='metas.html'">Voltar</button>
+</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
             try {
                 const resposta = await fetch('http://localhost:3000/metas', {
                     method: 'GET',
@@ -61,55 +144,42 @@
                 }
 
                 const metas = await resposta.json();
-                
                 const corpoTabela = document.getElementById('corpo-metas');
                 corpoTabela.innerHTML = "";
 
-                if (metas.length === 0) {
-                    corpoTabela.innerHTML = "<tr><td colspan='6'>Nenhuma meta cadastrada.</td></tr>";
-                    return;
-                }
+                if (metas.length > 0) {
+                    metas.forEach(meta => {
+                        // ✅ Formatar valores corretamente (sem casas decimais se for inteiro)
+                        let formatarValor = (valor) => valor % 1 === 0 ? `R$ ${valor.toFixed(0)}` : `R$ ${valor.toFixed(2)}`;
 
-                metas.forEach(meta => {
-                    let row = `<tr>
-                        <td>${meta.titulo}</td>
-                        <td>R$ ${parseFloat(meta.valor_meta).toFixed(2)}</td>
-                        <td>R$ ${parseFloat(meta.valor_acumulado).toFixed(2)}</td>
-                        <td>${new Date(meta.data_inicio).toLocaleDateString('pt-BR')}</td>
-                        <td>${new Date(meta.data_fim).toLocaleDateString('pt-BR')}</td>
-                        <td><button onclick="editarMeta(${meta.id_meta})">Editar</button></td>
-                    </tr>`;
-                    corpoTabela.innerHTML += row;
-                });
+                        // ✅ Formatar data corretamente (sem a hora)
+                        let dataFimFormatada = meta.data_fim.includes("T") 
+                            ? meta.data_fim.split("T")[0].split("-").reverse().join("/")
+                            : meta.data_fim.split("-").reverse().join("/");
+
+                        let row = `
+                            <tr>
+                                <td>${meta.titulo}</td>
+                                <td>${formatarValor(meta.valor_meta)}</td>
+                                <td>${formatarValor(meta.valor_acumulado)}</td>
+                                <td>${dataFimFormatada}</td>
+                                <td><button class="editar-btn" onclick="editarMeta(${meta.id_meta})">Editar</button></td>
+                            </tr>`;
+                        corpoTabela.innerHTML += row;
+                    });
+                } else {
+                    corpoTabela.innerHTML = "<tr><td colspan='5'>Nenhuma meta cadastrada.</td></tr>";
+                }
 
             } catch (error) {
                 console.error("❌ Erro ao carregar metas:", error);
-                await customAlert("Erro ao carregar metas.", "error");
+                alert("Erro ao conectar com o servidor.");
             }
-        }
+        });
 
         function editarMeta(id) {
             window.location.href = `editar_meta.html?id=${id}`;
         }
     </script>
-    
-    <div class="container">
-        <h1>Gerenciar Metas Financeiras</h1>
-        <table id="tabela-metas">
-            <thead>
-                <tr>
-                    <th>Título</th>
-                    <th>Valor Meta</th>
-                    <th>Valor Acumulado</th>
-                    <th>Data Inicial</th>
-                    <th>Data Final</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody id="corpo-metas"></tbody>
-        </table>
-        
-        <button class="back-btn" onclick="window.location.href='metas.html'">Voltar</button>
-    </div>
 </body>
 </html>
