@@ -67,7 +67,8 @@ body {
 
 /* ====== ESTILIZAÇÃO DOS PAINÉIS ====== */
 .login-container, .profile-container {
-    width: 420px;
+    width: 80%;
+    max-width: 400px;
     padding: 35px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
@@ -199,14 +200,14 @@ button:hover {
 .pagina-despesas .container {
     background: rgba(255, 255, 255, 0.1);
     width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 800px; /* Limite para telas grandes */
+    max-width: 600px; /* Limite para telas grandes */
     min-width: 320px; /* Evita que fique muito pequeno em telas menores */
     margin: 5% auto; /* Centraliza e dá um espaço no topo */
     padding: 2%; /* Usa % para espaçamento interno adaptável */
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.0); /* Mantém o efeito de aumento */
+    transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
     
@@ -277,14 +278,14 @@ button:hover {
 .pagina-metas .container {
     background: rgba(255, 255, 255, 0.1);
     width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 800px; /* Limite para telas grandes */
+    max-width: 600px; /* Limite para telas grandes */
     min-width: 320px; /* Evita que fique muito pequeno em telas menores */
     margin: 5% auto; /* Centraliza e dá um espaço no topo */
     padding: 2%; /* Usa % para espaçamento interno adaptável */
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.0); /* Mantém o efeito de aumento */
+    transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
 }
@@ -374,14 +375,14 @@ button:hover {
 .pagina-receitas .container {
     background: rgba(255, 255, 255, 0.1);
     width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 800px; /* Limite para telas grandes */
+    max-width: 600px; /* Limite para telas grandes */
     min-width: 320px; /* Evita que fique muito pequeno em telas menores */
     margin: 5% auto; /* Centraliza e dá um espaço no topo */
     padding: 2%; /* Usa % para espaçamento interno adaptável */
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.0); /* Mantém o efeito de aumento */
+    transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
     
@@ -459,15 +460,16 @@ button:hover {
 
 .pagina-relatorios .container {
     background: rgba(255, 255, 255, 0.1);
+    height:40vh;
     width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 800px; /* Limite para telas grandes */
+    max-width: 600px; /* Limite para telas grandes */
     min-width: 320px; /* Evita que fique muito pequeno em telas menores */
     margin: 5% auto; /* Centraliza e dá um espaço no topo */
     padding: 2%; /* Usa % para espaçamento interno adaptável */
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.13); /* Mantém o efeito de aumento */
+    transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
     margin-bottom: 10%;
@@ -673,7 +675,7 @@ button:hover {
             background: 255, 255, 255, 0.1;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transform: scale(1.3); /* Mantém o efeito de aumento */
+            transform: scale(1.1); /* Mantém o efeito de aumento */
             transform-origin: center;
             outline: 2px solid white;
         }
