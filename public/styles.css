@@ -3,9 +3,9 @@
 /* 🔥 Caixa de alerta fixa no topo */
 .custom-alert {
     position: fixed;
-    top: 20px; /* Distância do topo */
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%); /* Centraliza horizontalmente */
+    transform: translateX(-50%);
     background: rgba(255, 255, 255, 0.1);
     color: white;
     padding: 15px 25px;
@@ -15,9 +15,10 @@
     max-width: 400px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     animation: slideDown 0.3s ease-in-out;
-    z-index: 10000000 !important; /* 🔥 Garante sobreposição */
-    pointer-events: auto; /* Permite clique no botão */
+    z-index: 10000000;
+    pointer-events: auto;
     outline: 2px solid white;
+    font-weight: bold;
 }
 
 /* 🔥 Botão */
@@ -149,39 +150,180 @@ button:hover {
     box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.6);
 }
 
-.forgot-password {
-    font-size: 14px;
-    color: #bbb;
-    cursor: pointer;
-    margin-top: 12px;
-    text-decoration: none;
-    transition: color 0.3s;
-}
 
-.forgot-password:hover {
+.pagina-criar_conta body {
+    background: linear-gradient(to bottom, #333, #000);
     color: white;
-    text-decoration: underline;
-}
-
-/* Estilização do botão Criar Conta */
-.create-account {
-    width: 80%;
-    padding: 12px;
-    background: none;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    cursor: pointer;
-    margin-top: 15px;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.create-account:hover {
-    background: linear-gradient(90deg, #0056b3, #007bff);
-    border: 1px solid #0056b3;
-    transform: scale(1.05);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+.pagina-criar_conta .container {
+    background: rgba(255, 255, 255, 0.1);
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 600px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform-origin: center;
+    outline: 2px solid white;
+}
+
+.pagina-criar_conta h1 {
+    color: #0056b3; /* Cor verde para receitas */
+}
+
+.pagina-criar_conta .input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+}
+
+.pagina-criar_conta input, .pagina-criar_conta textarea, .pagina-criar_conta button {
+    width: 90%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    
+}
+
+.pagina-criar_conta select {
+    width: 92.5%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+
+}
+
+
+.pagina-criar_conta textarea {
+    resize: none;
+    height: 80px;
+}
+
+.pagina-criar_conta button {
+    background: #0056b3; /* Cor verde para receitas */
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 80%;
+    max-width: 650px;
+}
+
+.pagina-criar_conta button:hover {
+    background: #00408a; /* Tom de verde mais escuro no hover */
+}
+
+.pagina-criar_conta .back-btn {
+    background: gray;
+    margin-top: 10px;
+}
+
+.pagina-entrar body {
+    background: linear-gradient(to bottom, #333, #000);
+    color: white;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 20px;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagina-entrar .container {
+    background: rgba(255, 255, 255, 0.1);
+    width: 90%; /* Ocupará 90% da largura da tela */
+    max-width: 600px; /* Limite para telas grandes */
+    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
+    margin: 5% auto; /* Centraliza e dá um espaço no topo */
+    padding: 2%; /* Usa % para espaçamento interno adaptável */
+    background: 255, 255, 255, 0.1;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform-origin: center;
+    outline: 2px solid white;
+}
+
+.pagina-entrar h1 {
+    color: #0056b3; /* Cor verde para receitas */
+}
+
+.pagina-entrar .input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+}
+
+.pagina-entrar input, .pagina-entrar textarea, .pagina-entrar button {
+    width: 90%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    
+}
+
+.pagina-entrar select {
+    width: 92.5%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+
+}
+
+.pagina-entrar textarea {
+    resize: none;
+    height: 80px;
+}
+
+.pagina-entrar button {
+    background: #0056b3; /* Cor verde para receitas */
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 80%;
+    max-width: 650px;
+}
+
+.pagina-entrar button:hover {
+    background: #00408a; /* Tom de verde mais escuro no hover */
+}
+
+.pagina-entrar .back-btn {
+    background: gray;
+    margin-top: 10px;
 }
 
 .pagina-despesas body {
@@ -332,7 +474,7 @@ button:hover {
     cursor: pointer;
     transition: background 0.3s;
     width: 80%;
-    max-width: 400px;
+    max-width: 500px;
     flex: 1;
     padding: 10px;
     
@@ -342,7 +484,6 @@ button:hover {
 .pagina-metas button:hover {
     background: #0625c2;
 }
-
 
 .pagina-metas .back-btn {
     background: gray;
@@ -390,7 +531,6 @@ button:hover {
     transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
-    
 }
 
 .pagina-receitas h1 {
@@ -414,6 +554,7 @@ button:hover {
     text-align: center;
     
 }
+
 .pagina-receitas select {
     width: 92.5%;
     margin: 8px 0;
@@ -732,7 +873,7 @@ button:hover {
             width: 80%;
             margin-top: 15px;
             padding: 10px;
-            background: gray;
+            background: grey;
             color: white;
             border: none;
             border-radius: 8px;

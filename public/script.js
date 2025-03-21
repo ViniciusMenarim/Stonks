@@ -6,7 +6,7 @@
             let oldAlert = document.getElementById("customAlertOverlay");
             if (oldAlert) oldAlert.remove();
     
-            // Criar o container de sobreposição (opcional)
+            // Criar o container de sobreposição
             let overlay = document.createElement("div");
             overlay.id = "customAlertOverlay";
             overlay.classList.add("custom-alert-overlay");
@@ -22,6 +22,25 @@
             // Adicionar alerta na tela
             overlay.appendChild(alertBox);
             document.body.appendChild(overlay);
+    
+            // Aplicar estilos diretamente ao botão para deixá-lo igual ao da segunda imagem
+            let alertButton = alertBox.querySelector("#alertOkButton");
+            alertButton.style.background = "white";
+            alertButton.style.color = "black";
+            alertButton.style.fontWeight = "bold";
+            alertButton.style.padding = "10px 20px";
+            alertButton.style.borderRadius = "8px";
+            alertButton.style.cursor = "pointer";
+            alertButton.style.border = "none";
+            alertButton.style.fontSize = "16px";
+    
+            alertButton.addEventListener("mouseover", () => {
+                alertButton.style.background = "#e0e0e0";
+            });
+    
+            alertButton.addEventListener("mouseout", () => {
+                alertButton.style.background = "white";
+            });
     
             // Evento para fechar alerta e continuar a execução
             document.getElementById("alertOkButton").addEventListener("click", () => {
@@ -131,29 +150,31 @@
 
     // ===================== SALVAR DESPESA =====================
     async function salvarDespesa() {
-        const descricao = document.getElementById('descricao').value.trim();
-        const valor = document.getElementById('valor').value.trim();
-        const data_pagamento = document.getElementById('data_despesa').value;
+        const descricao = document.getElementById('titulo').value.trim();
+        const valor = document.getElementById('valor_despesa').value.trim();
+        const data_pagamento = document.getElementById('data_inicio').value; // Corrigido
         const categoria = document.getElementById('categoria').value;
         const id_usuario = 1; // Trocar pelo ID do usuário autenticado
-
+    
         if (!descricao || !valor || !data_pagamento || !categoria) {
             await customAlert("Preencha todos os campos!");
             return;
         }
-
-        console.log("Enviando requisição para salvar despesa...");
-
+    
+        console.log("✅ Enviando requisição para salvar despesa...");
+    
         try {
             const resposta = await fetch('http://localhost:3000/despesa', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_usuario, descricao, valor, data_pagamento, categoria })
             });
-
+    
+            console.log("📩 Resposta recebida:", resposta);
+    
             const data = await resposta.json();
-            console.log("Resposta do servidor:", data);
-
+            console.log("📜 Dados do servidor:", data);
+    
             if (resposta.ok) {
                 await customAlert("Despesa adicionada com sucesso!");
                 window.location.href = "inicio.html";
@@ -161,36 +182,38 @@
                 await customAlert(data.message || "Erro ao adicionar despesa.");
             }
         } catch (error) {
-            console.error("Erro ao conectar com o servidor:", error);
+            console.error("❌ Erro ao conectar com o servidor:", error);
             await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
-    }
+    }    
 
     // ===================== SALVAR RECEITA =====================
     async function salvarReceita() {
-        const descricao = document.getElementById('descricao').value.trim();
-        const valor = document.getElementById('valor').value.trim();
-        const data_recebimento = document.getElementById('data_receita').value;
+        const descricao = document.getElementById('titulo').value.trim();
+        const valor = document.getElementById('valor_receita').value.trim();
+        const data_recebimento = document.getElementById('data_inicio').value; // Corrigido
         const categoria = document.getElementById('categoria').value;
-        const id_usuario = 1; // Substituir pelo ID do usuário autenticado
-
+        const id_usuario = 1; // Trocar pelo ID do usuário autenticado
+    
         if (!descricao || !valor || !data_recebimento || !categoria) {
             await customAlert("Preencha todos os campos!");
             return;
         }
-
-        console.log("Enviando requisição para salvar receita...");
-
+    
+        console.log("✅ Enviando requisição para salvar receita...");
+    
         try {
             const resposta = await fetch('http://localhost:3000/receita', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_usuario, descricao, valor, data_recebimento, categoria })
             });
-
+    
+            console.log("📩 Resposta recebida:", resposta);
+    
             const data = await resposta.json();
-            console.log("Resposta do servidor:", data);
-
+            console.log("📜 Dados do servidor:", data);
+    
             if (resposta.ok) {
                 await customAlert("Receita adicionada com sucesso!");
                 window.location.href = "inicio.html";
@@ -198,10 +221,10 @@
                 await customAlert(data.message || "Erro ao adicionar receita.");
             }
         } catch (error) {
-            console.error("Erro ao conectar com o servidor:", error);
+            console.error("❌ Erro ao conectar com o servidor:", error);
             await customAlert("Erro ao conectar com o servidor. Verifique a conexão.");
         }
-    }
+    }    
 
     // ===================== SALVAR META =====================
     async function salvarMeta() {
