@@ -348,7 +348,7 @@ button:hover {
     background: gray;
     margin-top: 10px;
     width: 80%;         /* nova largura */
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .pagina-metas .button-group {
