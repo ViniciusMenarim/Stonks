@@ -345,7 +345,7 @@ function customAlert(message, type = "info") {
     }
     
     document.addEventListener("DOMContentLoaded", carregarCategorias);
-    
+
     async function carregarGraficoPizza() {
         try {
             const resposta = await fetch('http://localhost:3000/dados-grafico');
@@ -353,31 +353,61 @@ function customAlert(message, type = "info") {
     
             console.log("Dados do gráfico carregados:", dados);
     
-            const saldo = dados.saldo.toFixed(2);
+            const saldo = dados.saldo;
             const categorias = dados.categorias;
     
-            if (categorias.every(c => c.total_gasto === 0)) {
-                document.getElementById('financeChart').style.display = 'none';
-                document.querySelector('.chart-center').innerText = `R$${saldo}`;
-                return;
+
+            function formatarSaldo(saldo) {
+                return saldo % 1 === 0 ? `R$${saldo.toFixed(0)}` : `R$${saldo.toFixed(2)}`;
             }
     
-            const labels = categorias.map(c => `${c.nome}: R$${c.total_gasto.toFixed(2)}`);
-            const valores = categorias.map(c => c.total_gasto);
-            const cores = categorias.map(c => c.cor);
-    
-            document.querySelector('.chart-center').innerText = `R$${saldo}`;
+            document.querySelector('.chart-center').innerHTML = `
+                <span style="display: block; font-size: 0.8em;">Saldo:</span>
+                <span style="font-size: 1.2em;">${formatarSaldo(saldo)}</span>
+            `;
     
             const chartElement = document.getElementById('financeChart');
+            chartElement.style.display = 'block'; 
+    
             if (chartElement.chart) {
                 chartElement.chart.destroy();
             }
     
             const ctx = chartElement.getContext('2d');
+    
+            if (!categorias || categorias.length === 0 || categorias.every(c => c.total_gasto === 0)) {
+                console.warn("Nenhuma categoria com gastos encontrados. Exibindo gráfico vazio.");
+    
+                chartElement.chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Sem Gastos'],
+                        datasets: [{
+                            data: [1], 
+                            backgroundColor: ['#ccc'] 
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+    
+                return;
+            }
+    
+            const labels = categorias.map(c => c.nome);
+            const valores = categorias.map(c => c.total_gasto);
+            const cores = categorias.map(c => c.cor);
+    
             chartElement.chart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: labels, 
+                    labels: labels,
                     datasets: [{
                         data: valores,
                         backgroundColor: cores
@@ -386,29 +416,52 @@ function customAlert(message, type = "info") {
                 options: {
                     plugins: {
                         legend: {
-                            display: false 
+                            display: false
                         },
                         tooltip: {
-                            displayColors: false, 
-                            backgroundColor: 'rgba(0, 0, 0, 0.95)', 
-                            titleFont: { size: 15, weight: 'bold' }, 
-                            bodyFont: { size: 20 },
-                            bodyColor: '#fff', 
-                            borderWidth: 2,
-                            borderColor: '#fff', 
-                            cornerRadius: 6, 
-                            padding: 10, 
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    const index = tooltipItem.dataIndex;
-                                    return `${categorias[index].nome}: R$${categorias[index].total_gasto.toFixed(2)}`;
-                                },
-                                title: () => ''
+                            enabled: false,
+                            external: function(context) {
+                                let tooltipEl = document.getElementById('chartjs-tooltip');
+                        
+                                if (!tooltipEl) {
+                                    tooltipEl = document.createElement('div');
+                                    tooltipEl.id = 'chartjs-tooltip';
+                                    tooltipEl.innerHTML = '<div class="tooltip-content"></div>';
+                                    document.body.appendChild(tooltipEl);
+                                }
+                        
+                                const tooltipModel = context.tooltip;
+                        
+                                if (tooltipModel.opacity === 0) {
+                                    tooltipEl.style.opacity = 0;
+                                    return;
+                                }
+                        
+                                const dataPoint = tooltipModel.dataPoints[0];
+                                const categoria = dataPoint.label;
+                                const valor = `R$${dataPoint.raw.toFixed(2)}`;
+                                const corCategoria = context.chart.data.datasets[0].backgroundColor[dataPoint.dataIndex];
+                        
+                                tooltipEl.querySelector('.tooltip-content').innerHTML = `
+                                    <strong>${categoria}</strong><br>${valor}
+                                `;
+                        
+                                tooltipEl.style.backgroundColor = corCategoria;
+                                tooltipEl.style.border = "3px solid white"; 
+                        
+                                const chartElement = context.chart.canvas;
+                                const chartRect = chartElement.getBoundingClientRect();
+                        
+                                tooltipEl.style.opacity = 1;
+                                tooltipEl.style.left = `${chartRect.left + chartRect.width / 2}px`; 
+                                tooltipEl.style.top = `${chartRect.bottom + 10}px`;
+                                tooltipEl.style.transform = "translateX(-50%)"; 
+                                tooltipEl.style.position = "absolute";
                             }
-                        }
+                        }                                       
                     },
                     cutout: '60%'
-                }                
+                }
             });
     
         } catch (error) {
@@ -416,7 +469,7 @@ function customAlert(message, type = "info") {
         }
     }
     
-    document.addEventListener("DOMContentLoaded", carregarGraficoPizza);
+    document.addEventListener("DOMContentLoaded", carregarGraficoPizza);    
     
     async function gerarRelatorio() {
         const dataInicio = document.getElementById('data_inicio').value;

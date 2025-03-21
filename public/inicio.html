@@ -120,6 +120,11 @@
     font-size: 3.0em;
     font-weight: bold;
     color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .categories {
@@ -156,6 +161,21 @@
 }
 
 .profile-btn:hover { color: #4CAF50; }
+
+#chartjs-tooltip {
+    position: absolute;
+    color: white;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+    z-index: 9999;
+    transition: opacity 0.3s ease-in-out;
+}
 
 @media (max-width: 900px) {
     .container {
@@ -213,7 +233,7 @@
         </div>
         <div class="chart-container">
             <canvas id="financeChart"></canvas>
-            <div class="chart-center">R$0</div>
+            <div class="chart-center">Saldo:<br><span style="font-size: 1.0em;">R$00.00</span></div>
         </div>
         <div class="categories" id="categorias-container"></div>
     </div>
