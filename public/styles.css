@@ -68,7 +68,7 @@ body {
 /* ====== ESTILIZAÇÃO DOS PAINÉIS ====== */
 .login-container, .profile-container {
     width: 80%;
-    max-width: 400px;
+    max-width: 600px;
     padding: 35px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
@@ -78,7 +78,7 @@ body {
     transition: all 0.3s ease-in-out;
     position: relative;
     outline: 2px solid white;
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 
@@ -262,7 +262,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
 }
 
@@ -326,12 +326,17 @@ button:hover {
 
 .pagina-metas button {
     background: #0744be;
+    justify-content: center;
     color: white;
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    width: 100%;
-    max-width: 650px;
+    width: 60%;
+    max-width: 400px;
+    flex: 1;
+    padding: 10px;
+    
+    
 }
 
 .pagina-metas button:hover {
@@ -342,7 +347,7 @@ button:hover {
 .pagina-metas .back-btn {
     background: gray;
     margin-top: 10px;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
 }
 
@@ -350,7 +355,7 @@ button:hover {
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
 }
 
@@ -432,7 +437,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
 }
 
@@ -508,7 +513,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
 }
 
@@ -519,6 +524,7 @@ button:hover {
 .pagina-relatorios .back-btn {
     background: gray;
     margin-top: 10px;
+    width: 80%;
 }
 
 .pagina-relatorios table {
@@ -549,14 +555,14 @@ button:hover {
 .pagina-perfil .container {
     background: rgba(255, 255, 255, 0.1);
     width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 800px; /* Limite para telas grandes */
+    max-width: 600px; /* Limite para telas grandes */
     min-width: 320px; /* Evita que fique muito pequeno em telas menores */
     margin: 5% auto; /* Centraliza e dá um espaço no topo */
     padding: 2%; /* Usa % para espaçamento interno adaptável */
     background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.1); /* Mantém o efeito de aumento */
+    transform: scale(1.2); /* Mantém o efeito de aumento */
     transform-origin: center;
     outline: 2px solid white;
 }
@@ -668,14 +674,14 @@ button:hover {
         .pagina-relatorio_gerado .container {
             background: rgba(255, 255, 255, 0.1);
             width: 90%; /* Ocupará 90% da largura da tela */
-            max-width: 800px; /* Limite para telas grandes */
+            max-width: 600px; /* Limite para telas grandes */
             min-width: 320px; /* Evita que fique muito pequeno em telas menores */
             margin: 5% auto; /* Centraliza e dá um espaço no topo */
             padding: 2%; /* Usa % para espaçamento interno adaptável */
             background: 255, 255, 255, 0.1;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transform: scale(1.1); /* Mantém o efeito de aumento */
+            transform: scale(1.2); /* Mantém o efeito de aumento */
             transform-origin: center;
             outline: 2px solid white;
         }
