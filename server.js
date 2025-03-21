@@ -384,13 +384,17 @@ app.get('/relatorio-gerado', (req, res) => {
     }
 
     const sqlDespesas = `
-        SELECT id_despesa AS id, descricao, valor, data_pagamento AS data, categoria, 'Despesa' AS movimentacao
+        SELECT id_despesa AS id, descricao, valor, 
+               DATE_FORMAT(data_pagamento, '%Y-%m-%d') AS data, 
+               categoria, 'Despesa' AS movimentacao
         FROM DESPESA
         WHERE id_usuario = ? AND data_pagamento BETWEEN ? AND ?
     `;
 
     const sqlReceitas = `
-        SELECT id_receita AS id, descricao, valor, data_recebimento AS data, categoria, 'Receita' AS movimentacao
+        SELECT id_receita AS id, descricao, valor, 
+               DATE_FORMAT(data_recebimento, '%Y-%m-%d') AS data, 
+               categoria, 'Receita' AS movimentacao
         FROM RECEITA
         WHERE id_usuario = ? AND data_recebimento BETWEEN ? AND ?
     `;
@@ -415,9 +419,14 @@ app.get('/relatorio-gerado', (req, res) => {
     });
 });
 
+
 // ========================== LISTAR TODAS AS METAS ==========================
 app.get('/metas', (req, res) => {
-    const sql = `SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim FROM META_FINANCEIRA`;
+    const sql = 
+        `SELECT id_meta, titulo, valor_meta, valor_acumulado, 
+               DATE_FORMAT(data_inicio, '%Y-%m-%d') AS data_inicio, 
+               DATE_FORMAT(data_fim, '%Y-%m-%d') AS data_fim
+        FROM meta_financeira `;
 
     db.query(sql, (err, results) => {
         if (err) {
@@ -437,8 +446,12 @@ app.get('/metas/detalhes/:id', (req, res) => {
         return res.status(400).json({ message: "ID inválido." });
     }
 
-    const sql = `SELECT id_meta, titulo, valor_meta, valor_acumulado, data_inicio, data_fim 
-                 FROM meta_financeira WHERE id_meta = ?`;
+    const sql = `
+        SELECT id_meta, titulo, valor_meta, valor_acumulado, 
+               DATE_FORMAT(data_inicio, '%Y-%m-%d') AS data_inicio, 
+               DATE_FORMAT(data_fim, '%Y-%m-%d') AS data_fim
+        FROM meta_financeira 
+        WHERE id_meta = ?`;
 
     db.query(sql, [id_meta], (err, results) => {
         if (err) {
@@ -450,7 +463,7 @@ app.get('/metas/detalhes/:id', (req, res) => {
             return res.status(404).json({ message: "Meta não encontrada." });
         }
 
-        res.json(results[0]); // Retorna a meta encontrada
+        res.json(results[0]); // Retorna a meta com as datas formatadas corretamente
     });
 });
 
