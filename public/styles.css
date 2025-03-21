@@ -347,8 +347,8 @@ button:hover {
 .pagina-metas .back-btn {
     background: gray;
     margin-top: 10px;
-    width: 80%;
-    max-width: 650px;
+    width: 60%;         /* nova largura */
+    max-width: 400px;
 }
 
 .pagina-metas .button-group {
@@ -748,3 +748,5 @@ button:hover {
         .pagina-relatorio_gerado .back-btn:hover {
             background: #e5b635;
         }
+
+        
