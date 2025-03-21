@@ -65,7 +65,7 @@
                 if (dados.length > 0) {
                     dados.forEach(d => {
                         let valor = parseFloat(d.valor).toFixed(2);
-                        let prefixo = d.movimentacao === "Receita" ? "+" : "-";
+                        let prefixo = d.movimentacao === "Receita" ? "" : "";
                         let movimentacaoTipo = d.movimentacao === "Receita" ? "Receita" : "Despesa";
                         
                         // Corrigindo a exibição da data

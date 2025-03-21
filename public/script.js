@@ -452,32 +452,21 @@
             }
     
             const metas = await resposta.json();
-            
             const corpoTabela = document.getElementById('corpo-metas');
             corpoTabela.innerHTML = "";
     
             if (metas.length === 0) {
-                corpoTabela.innerHTML = "<tr><td colspan='6'>Nenhuma meta cadastrada.</td></tr>";
+                corpoTabela.innerHTML = "<tr><td colspan='5'>Nenhuma meta cadastrada.</td></tr>";
                 return;
             }
     
             metas.forEach(meta => {
-                // ✅ Corrigindo a extração da data corretamente
-                let dataInicioFormatada = meta.data_inicio.includes("T") 
-                    ? meta.data_inicio.split("T")[0].split("-").reverse().join("/")
-                    : meta.data_inicio.split("-").reverse().join("/");
-                
-                let dataFimFormatada = meta.data_fim.includes("T") 
-                    ? meta.data_fim.split("T")[0].split("-").reverse().join("/")
-                    : meta.data_fim.split("-").reverse().join("/");
-    
                 let row = `<tr>
                     <td>${meta.titulo}</td>
-                    <td>R$ ${parseFloat(meta.valor_meta).toFixed(2)}</td>
-                    <td>R$ ${parseFloat(meta.valor_acumulado).toFixed(2)}</td>
-                    <td>${dataInicioFormatada}</td> <!-- ✅ Agora sem hora -->
-                    <td>${dataFimFormatada}</td>
-                    <td><button onclick="editarMeta(${meta.id_meta})">Editar</button></td>
+                    <td>R$ ${meta.valor_meta.toLocaleString('pt-BR')}</td>
+                    <td>R$ ${meta.valor_acumulado.toLocaleString('pt-BR')}</td>
+                    <td>${new Date(meta.data_fim).toLocaleDateString('pt-BR')}</td>
+                    <td><button class="editar-btn" onclick="editarMeta(${meta.id_meta})">Editar</button></td>
                 </tr>`;
                 corpoTabela.innerHTML += row;
             });
@@ -485,8 +474,8 @@
         } catch (error) {
             console.error("Erro ao carregar metas:", error);
         }
-    }    
-    
+    }
+      
     async function carregarMeta(id_meta) {
         try {
             const resposta = await fetch(`http://localhost:3000/metas/detalhes/${id_meta}`, {

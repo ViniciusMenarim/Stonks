@@ -707,13 +707,9 @@ button:hover {
             text-align: left;
         }
 
-        .pagina-relatorio_gerado thead {
-            background: #555;
-        }
-
         .pagina-relatorio_gerado th, .pagina-relatorio_gerado td {
             padding: 10px;
-            border-bottom: 1px solid #666;
+            border-bottom: 2px solid #ffffff;
         }
 
         .pagina-relatorio_gerado tr:last-child td {
