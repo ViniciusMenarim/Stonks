@@ -693,24 +693,35 @@ button:hover {
     align-items: center;
 }
 
+
 .pagina-perfil .container {
+    width: 90%;
+    max-width: 600px;
+    min-width: 320px;
+    margin: 5% auto;
+    padding: 2%;
     background: rgba(255, 255, 255, 0.1);
-    width: 90%; /* Ocupará 90% da largura da tela */
-    max-width: 600px; /* Limite para telas grandes */
-    min-width: 320px; /* Evita que fique muito pequeno em telas menores */
-    margin: 5% auto; /* Centraliza e dá um espaço no topo */
-    padding: 2%; /* Usa % para espaçamento interno adaptável */
-    background: 255, 255, 255, 0.1;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.2); /* Mantém o efeito de aumento */
+    transform: scale(1.2);
     transform-origin: center;
     outline: 2px solid white;
 }
 
-.pagina-perfil h1 {
-    color: #4CAF50;
-    margin-bottom: 15px;
+.pagina-perfil button {
+    background: #439d48;
+    width: 80%;
+    max-width: 650px;
+}
+
+.pagina-perfil input {
+    width: 90%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    text-align: center;
 }
 
 .pagina-perfil .input-group {
@@ -718,86 +729,21 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-weight: 600;
 }
 
-.pagina-perfil .password-group {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.pagina-perfil input, .pagina-perfil button {
-    width: 95%;
-    margin: 10px 0;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1.1em;
-    text-align: center;
-}
-
-.pagina-perfil input {
-    background: rgba(255, 255, 255, 0.25);
-    color: white;
-    outline: none;
-    transition: background 0.3s;
-}
-
-.pagina-perfil input:focus {
-    background: rgba(255, 255, 255, 0.35);
-}
-
-.pagina-perfil .password-group input {
-    width: calc(100% - 90px);
-    text-align: left;
-    padding-left: 10px;
-}
-
-.pagina-perfil .toggle-password, .pagina-perfil .edit-password {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 5px;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 1.1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-    margin-left: 10px;
-}
-
-.pagina-perfil .toggle-password:hover, .pagina-perfil .edit-password:hover {
-    background: #4CAF50;
-}
-
-.pagina-perfil button {
-    background: #4CAF50;
-    color: white;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-    width: 90%;
-    max-width: 650px;
-}
-
-.pagina-perfil button:hover {
-    background: #45a049;
-    transform: scale(1.05);
+.pagina-perfil h1 {
+    color: #439d48;
+    font-weight: 600;
 }
 
 .pagina-perfil .back-btn {
-    background: gray;
-    margin-top: 12px;
+    margin-top: 10px;
+    background: grey;
 }
 
-.pagina-perfil .password-container {
-    display: flex;
-    width: 100%;
-    justify-content: center;
+.pagina-perfil button:hover {
+    background: #3c8f42; /* Tom de verde mais escuro no hover */
 }
 
 .pagina-relatorio_gerado body {
