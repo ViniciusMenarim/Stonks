@@ -22,28 +22,13 @@
                 window.location.href = "entrar.html";
             }
         });
-    </script>
 
-    <div class="container">
-        <h1>Despesas e Receitas</h1>
-        <div class="table-container">
-            <table id="tabela-relatorio">
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Tipo</th>
-                        <th>Categoria</th>
-                        <th>Valor</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody id="corpo-relatorio"></tbody>
-            </table>
-        </div>             
-        <button class="back-btn" onclick="window.history.back()">Voltar</button>
-    </div>
+        // ✅ Função para formatar o valor corretamente
+        function formatarValor(valor) {
+            let valorFormatado = parseFloat(valor);
+            return valorFormatado % 1 === 0 ? `R$ ${valorFormatado.toFixed(0)}` : `R$ ${valorFormatado.toFixed(2)}`;
+        }
 
-    <script>
         document.addEventListener("DOMContentLoaded", async function () {
             const params = new URLSearchParams(window.location.search);
             const data_inicio = params.get('data_inicio');
@@ -64,19 +49,18 @@
 
                 if (dados.length > 0) {
                     dados.forEach(d => {
-                        let valor = parseFloat(d.valor).toFixed(2);
                         let prefixo = d.movimentacao === "Receita" ? "" : "";
                         let movimentacaoTipo = d.movimentacao === "Receita" ? "Receita" : "Despesa";
                         
-                        // Corrigindo a exibição da data
-                        let dataFormatada = d.data ? d.data.split(" ")[0].split("-").reverse().join("/") : "Data inválida";
+                        // ✅ Corrigir exibição da data sem hora
+                        let dataFormatada = d.data ? d.data.split("T")[0].split("-").reverse().join("/") : "Data inválida";
 
                         let row = `
                             <tr>
                                 <td>${d.descricao}</td>
                                 <td>${movimentacaoTipo}</td>
                                 <td>${d.categoria}</td>
-                                <td>${prefixo} R$ ${valor}</td>
+                                <td>${prefixo} ${formatarValor(d.valor)}</td>
                                 <td>${dataFormatada}</td>
                             </tr>`;
                         corpoTabela.innerHTML += row;
@@ -90,5 +74,24 @@
             }
         });
     </script>
+
+    <div class="container">
+        <h1>Despesas e Receitas</h1>
+        <div class="table-container">
+            <table id="tabela-relatorio">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Tipo</th>
+                        <th>Categoria</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-relatorio"></tbody>
+            </table>
+        </div>             
+        <button class="back-btn" onclick="window.history.back()">Voltar</button>
+    </div>
 </body>
 </html>
