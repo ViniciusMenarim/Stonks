@@ -444,7 +444,7 @@
             const resposta = await fetch('http://localhost:3000/metas', {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include' // Garante que os cookies de sessão sejam enviados
+                credentials: 'include'
             });
     
             if (!resposta.ok) {
@@ -453,7 +453,6 @@
     
             const metas = await resposta.json();
             
-            const tabela = document.getElementById('tabela-metas');
             const corpoTabela = document.getElementById('corpo-metas');
             corpoTabela.innerHTML = "";
     
@@ -463,12 +462,21 @@
             }
     
             metas.forEach(meta => {
+                // ✅ Corrigindo a extração da data corretamente
+                let dataInicioFormatada = meta.data_inicio.includes("T") 
+                    ? meta.data_inicio.split("T")[0].split("-").reverse().join("/")
+                    : meta.data_inicio.split("-").reverse().join("/");
+                
+                let dataFimFormatada = meta.data_fim.includes("T") 
+                    ? meta.data_fim.split("T")[0].split("-").reverse().join("/")
+                    : meta.data_fim.split("-").reverse().join("/");
+    
                 let row = `<tr>
                     <td>${meta.titulo}</td>
-                    <td>R$ ${meta.valor_meta.toFixed(2)}</td>
-                    <td>R$ ${meta.valor_acumulado.toFixed(2)}</td>
-                    <td>${meta.data_inicio}</td>
-                    <td>${meta.data_fim}</td>
+                    <td>R$ ${parseFloat(meta.valor_meta).toFixed(2)}</td>
+                    <td>R$ ${parseFloat(meta.valor_acumulado).toFixed(2)}</td>
+                    <td>${dataInicioFormatada}</td> <!-- ✅ Agora sem hora -->
+                    <td>${dataFimFormatada}</td>
                     <td><button onclick="editarMeta(${meta.id_meta})">Editar</button></td>
                 </tr>`;
                 corpoTabela.innerHTML += row;
@@ -477,7 +485,7 @@
         } catch (error) {
             console.error("Erro ao carregar metas:", error);
         }
-    }
+    }    
     
     async function carregarMeta(id_meta) {
         try {
