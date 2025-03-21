@@ -331,7 +331,7 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    width: 60%;
+    width: 80%;
     max-width: 400px;
     flex: 1;
     padding: 10px;
@@ -347,7 +347,7 @@ button:hover {
 .pagina-metas .back-btn {
     background: gray;
     margin-top: 10px;
-    width: 60%;         /* nova largura */
+    width: 80%;         /* nova largura */
     max-width: 400px;
 }
 
