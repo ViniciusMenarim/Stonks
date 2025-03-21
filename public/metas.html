@@ -9,10 +9,18 @@
 
     <style>
         .container * {
-    transform: scale(1.0); /* Aumenta todos os elementos internos */
-    display: block; /* Mantém a estrutura */
-}
+            transform: scale(1.0);
+            display: block;
+        }
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -23,7 +31,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (!data.autenticado) {
-                        window.location.href = "entrar.html"; // Redireciona para login se não estiver autenticado
+                        window.location.href = "entrar.html";
                     }
                 })
                 .catch(error => {
@@ -52,8 +60,10 @@
             <input type="date" id="data_fim">
         </div>
         
-        <button onclick="salvarMeta()">Salvar Meta</button>
-        <button class="button" onclick="window.location.href='gerenciar_metas.html'">Gerenciar Metas</button>
+        <div class="button-group">
+            <button onclick="salvarMeta()">Salvar Meta</button>
+            <button class="button" onclick="window.location.href='gerenciar_metas.html'">Gerenciar Metas</button>
+        </div>
         <button class="back-btn" onclick="window.location.href='inicio.html'">Voltar</button>
     </div>
     <script src="script.js"></script>

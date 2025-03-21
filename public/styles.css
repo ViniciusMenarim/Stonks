@@ -139,6 +139,7 @@ button {
     font-size: 16px;
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    max-width: 650px;
 }
 
 button:hover {
@@ -249,6 +250,8 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
+    width: 100%;
+    max-width: 650px;
 }
 
 .pagina-despesas button:hover {
@@ -315,6 +318,8 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
+    width: 100%;
+    max-width: 650px;
 }
 
 .pagina-metas button:hover {
@@ -325,6 +330,20 @@ button:hover {
 .pagina-metas .back-btn {
     background: gray;
     margin-top: 10px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.pagina-metas .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.pagina-metas .button-group button {
+    flex: 1;
 }
 
 .pagina-receitas body {
@@ -391,7 +410,8 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
-    
+    width: 100%;
+    max-width: 650px;
 }
 
 .pagina-receitas button:hover {
@@ -465,6 +485,8 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s;
+    width: 100%;
+    max-width: 650px;
 }
 
 .pagina-relatorios button:hover {
@@ -588,7 +610,8 @@ button:hover {
     font-size: 1.2em;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    width: 95%;
+    width: 100%;
+    max-width: 650px;
 }
 
 .pagina-perfil button:hover {
