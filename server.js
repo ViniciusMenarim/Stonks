@@ -507,3 +507,4 @@ app.delete('/metas/excluir/:id', (req, res) => {
         res.json({ message: "Meta excluída com sucesso!" });
     });
 });
+

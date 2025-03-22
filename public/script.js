@@ -362,7 +362,7 @@ function customAlert(message, type = "info") {
             }
     
             document.querySelector('.chart-center').innerHTML = `
-                <span style="display: block; font-size: 0.8em;">Saldo:</span>
+                <span style="display: block; font-size: 1.0em;">Saldo:</span>
                 <span style="font-size: 1.0em;">${formatarSaldo(saldo)}</span>
             `;
     
@@ -454,7 +454,7 @@ function customAlert(message, type = "info") {
                         
                                 tooltipEl.style.opacity = 1;
                                 tooltipEl.style.left = `${chartRect.left + chartRect.width / 2}px`; 
-                                tooltipEl.style.top = `${chartRect.bottom + 10}px`;
+                                tooltipEl.style.top = `${chartRect.bottom + 20}px`;
                                 tooltipEl.style.transform = "translateX(-50%)"; 
                                 tooltipEl.style.position = "absolute";
                             }
@@ -605,3 +605,4 @@ function customAlert(message, type = "info") {
             await customAlert("Erro ao atualizar meta.", "error");
         }
     }    
+    
