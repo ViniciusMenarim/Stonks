@@ -264,8 +264,8 @@ app.get('/usuario-logado', (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em: http://localhost:${PORT}`);
+app.listen(3000, '0.0.0.0', () => {
+  console.log("Servidor rodando em todas as interfaces na porta 3000");
 });
 
 app.get('/categorias-despesas', (req, res) => {
