@@ -266,21 +266,20 @@ app.get('/usuario-logado', (req, res) => {
 const detect = require('detect-port').default || require('detect-port');
 const DEFAULT_PORT = process.env.PORT || 3001;
 
-detectPort(DEFAULT_PORT).then((port) => {
+detect(DEFAULT_PORT).then((port) => {
   if (port === DEFAULT_PORT) {
     app.listen(port, '0.0.0.0', () => {
-      console.log(` Servidor rodando em todas as interfaces na porta ${port}`);
+      console.log(`Servidor rodando em todas as interfaces na porta ${port}`);
     });
   } else {
     console.warn(`Porta ${DEFAULT_PORT} já está em uso. Usando porta alternativa ${port}`);
     app.listen(port, '0.0.0.0', () => {
-      console.log(` Servidor rodando em todas as interfaces na porta alternativa ${port}`);
+      console.log(`Servidor rodando em todas as interfaces na porta alternativa ${port}`);
     });
   }
 }).catch((err) => {
   console.error("Erro ao detectar porta:", err);
 });
-
 
 
 app.get('/categorias-despesas', (req, res) => {
