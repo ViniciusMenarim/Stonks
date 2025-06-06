@@ -263,22 +263,24 @@ app.get('/usuario-logado', (req, res) => {
     });
 });
 
-const detect = require('detect-port');
+const detect = require('detect-port').default || require('detect-port');
 const DEFAULT_PORT = process.env.PORT || 3001;
 
-detect(DEFAULT_PORT).then((port) => {
+detectPort(DEFAULT_PORT).then((port) => {
   if (port === DEFAULT_PORT) {
     app.listen(port, '0.0.0.0', () => {
-      console.log(`✅ Servidor rodando na porta ${port}`);
+      console.log(` Servidor rodando em todas as interfaces na porta ${port}`);
     });
   } else {
-    console.log(`⚠️ Porta ${DEFAULT_PORT} ocupada. Tente a porta ${port} ou finalize o processo existente.`);
-    // Ou se quiser iniciar mesmo assim:
-    // app.listen(port, '0.0.0.0', () => {
-    //   console.log(`Servidor rodando na porta alternativa ${port}`);
-    // });
+    console.warn(`Porta ${DEFAULT_PORT} já está em uso. Usando porta alternativa ${port}`);
+    app.listen(port, '0.0.0.0', () => {
+      console.log(` Servidor rodando em todas as interfaces na porta alternativa ${port}`);
+    });
   }
+}).catch((err) => {
+  console.error("Erro ao detectar porta:", err);
 });
+
 
 
 app.get('/categorias-despesas', (req, res) => {
