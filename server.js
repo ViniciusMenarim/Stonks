@@ -263,9 +263,10 @@ app.get('/usuario-logado', (req, res) => {
     });
 });
 
-const PORT = 3000;
-app.listen(3000, '0.0.0.0', () => {
-  console.log("Servidor rodando em todas as interfaces na porta 3000");
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor rodando em todas as interfaces na porta ${PORT}`);
 });
 
 app.get('/categorias-despesas', (req, res) => {
